@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Booking_detailController;
 use App\Models\Booking;
 use App\Models\Discount;
 use Illuminate\Support\Facades\Route;
@@ -10,6 +9,9 @@ use App\Http\Controllers\HotelController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\RoomtypeController;
+use App\Http\Controllers\Booking_detailController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +25,14 @@ use App\Http\Controllers\RoomtypeController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.client.index');
 });
 
-Route::prefix('admin')->name('admin.')->group(function(){
+Route::prefix('admin')->middleware(['auth','verified'])->name('admin.')->group(function(){
+
+    Route::get('/dashboard', function(){
+        return view('parts.backend.dashboard');
+    });
     Route::prefix('users')->name('users.')->group(function(){
         Route::get('/',[UserController::class,'index'])->name('index');
         Route::get('/data',[UserController::class,'loadData'])->name('data');
@@ -171,3 +177,7 @@ Route::prefix('admin')->name('admin.')->group(function(){
        
     });
 });
+
+
+
+require __DIR__.'/auth.php';
