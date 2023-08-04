@@ -36,31 +36,24 @@
 
             </tr>
         </tfoot>
+        <tbody>
+            @foreach ($booking_details as $booking_detail)
+                <tr>
+                    <td>{{$booking_detail->id}}</td>
+                    <td>{{$booking_detail->price}}</td>
+                    <td>{{$booking_detail->amount}}</td>
+                    <td>{{$booking_detail->room->name}}</td>
+                    <td>{{$booking_detail->booking->name}}</td>
+                </tr>
+            @endforeach
+        </tbody>
     </table>
 
+    
 </form>
 
 @include('parts.backend.delete')
 @endsection
 @section('scripts')
-<script>
-    $(document).ready(function () {
-        $('#datatable').DataTable({
-            ajax: '{{route('admin.booking_details.data')}}' ,
-            processing: true,
-            serverSide: true,
-            "columns": [
-                { "data": "id" },
-                { "data": "price" },
-                { "data": "amount" },
-                { "data": "room_id" },
-                { "data": "booking_id" },
-                
 
-            ]
-        });
-    });
-
-
-</script>
 @endsection

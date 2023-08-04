@@ -16,51 +16,52 @@ class HotelController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.hotel.lists');
+        $hotels = Hotel::orderBy('id', 'DESC')->get();
+        return view('layouts.admin.hotel.lists',compact('hotels'));
     }
 
-    public function loadData()
-    {
-        $hotels = Hotel::select(['id', 'name','address','description', 'created_at'])->latest();
+    // public function loadData()
+    // {
+    //     $hotels = Hotel::select(['id', 'name','address','description', 'created_at'])->latest();
 
-        return DataTables::of($hotels)
-            ->addColumn('edit', function ($hotel) {
-                return '<a href="' . route('admin.hotels.edit', $hotel->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($hotel) {
-                return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-            })
+    //     return DataTables::of($hotels)
+    //         ->addColumn('edit', function ($hotel) {
+    //             return '<a href="' . route('admin.hotels.edit', $hotel->id) . '" class="btn btn-warning">Sửa</a>';
+    //         })
+    //         ->addColumn('delete', function ($hotel) {
+    //             return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
+    //         })
 
-            ->addColumn('destroy', function ($hotel) {
-                return '<input type="checkbox" name="destroy['.$hotel->id.']" value="'.$hotel->id.'" >';
-            })
+    //         ->addColumn('destroy', function ($hotel) {
+    //             return '<input type="checkbox" name="destroy['.$hotel->id.']" value="'.$hotel->id.'" >';
+    //         })
 
-            ->editColumn('created_at', function ($hotel) {
-                return Carbon::parse($hotel->created_at)->format('d-m-Y H:i:s');
-            })
-            ->rawColumns(['edit', 'delete','destroy'])
-            ->toJson();
-    }
+    //         ->editColumn('created_at', function ($hotel) {
+    //             return Carbon::parse($hotel->created_at)->format('d-m-Y H:i:s');
+    //         })
+    //         ->rawColumns(['edit', 'delete','destroy'])
+    //         ->toJson();
+    // }
 
-    public function loadDataSoftDelete()
-    {
-        $hotels = Hotel::select(['id', 'name','address','description', 'created_at'])->onlyTrashed()->latest();
+    // public function loadDataSoftDelete()
+    // {
+    //     $hotels = Hotel::select(['id', 'name','address','description', 'created_at'])->onlyTrashed()->latest();
 
-        return DataTables::of($hotels)
-            ->addColumn('restore', function ($hotel) {
-                return '<a href="'.route('admin.hotels.restore', $hotel->id).'" class="btn btn-primary">Khôi phục</a>';
-            })
+    //     return DataTables::of($hotels)
+    //         ->addColumn('restore', function ($hotel) {
+    //             return '<a href="'.route('admin.hotels.restore', $hotel->id).'" class="btn btn-primary">Khôi phục</a>';
+    //         })
 
-            ->addColumn('destroy', function ($hotel) {
-                return '<input type="checkbox" name="destroy['.$hotel->id.']" value="'.$hotel->id.'" >';
-            })
+    //         ->addColumn('destroy', function ($hotel) {
+    //             return '<input type="checkbox" name="destroy['.$hotel->id.']" value="'.$hotel->id.'" >';
+    //         })
 
-            ->editColumn('created_at', function ($hotel) {
-                return Carbon::parse($hotel->created_at)->format('d-m-Y H:i:s');
-            })
-            ->rawColumns(['restore','destroy'])
-            ->toJson();
-    }
+    //         ->editColumn('created_at', function ($hotel) {
+    //             return Carbon::parse($hotel->created_at)->format('d-m-Y H:i:s');
+    //         })
+    //         ->rawColumns(['restore','destroy'])
+    //         ->toJson();
+    // }
 
     /**
      * Show the form for creating a new resource.
@@ -137,7 +138,8 @@ class HotelController extends Controller
     }
 
     public function showSoftDelete(){
-        return view('layouts.admin.hotel.softDelete');
+        $hotels = Hotel::onlyTrashed()->orderBy('id','desc')->get();
+        return view('layouts.admin.hotel.softDelete',compact('hotels'));
     }
 
     public function restore($id){

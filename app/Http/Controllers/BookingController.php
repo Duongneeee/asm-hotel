@@ -18,7 +18,8 @@ class BookingController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.booking.lists');
+        $bookings = Booking::orderBy('id', 'desc')->get();
+        return view('layouts.admin.booking.lists', compact('bookings'));
     }
 
     /**
@@ -42,7 +43,7 @@ class BookingController extends Controller
         $booking->phone = $request->phone;
         $booking->checkin = $request->checkin;
         $booking->checkout = $request->checkout;
-        $booking->user_id = 2;
+        $booking->user_id = 74;
         $booking->discount_id = $request->discount_id;
         $booking->save();
 
@@ -79,7 +80,7 @@ class BookingController extends Controller
         $booking->phone = $request->phone;
         $booking->checkin = $request->checkin;
         $booking->checkout = $request->checkout;
-        $booking->user_id = 2;
+        $booking->user_id = 74;
         $booking->discount_id = $request->discount_id;
         $booking->save();
 
@@ -105,65 +106,8 @@ class BookingController extends Controller
         return redirect()->route('admin.bookings.index')->with('msg','Không có dữ liệu để xóa');
     }
 
-    public function loadData()
-    {
-
-        $bookings = Booking::select(['id', 'name', 'phone', 'email', 'checkin','checkout','user_id','discount_id', 'created_at'])->latest();
-
-        return DataTables::of($bookings)
-            ->addColumn('edit', function ($booking) {
-                return '<a href="' . route('admin.bookings.edit', $booking->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($booking) {
-                return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-            })
-
-            ->addColumn('destroy', function ($booking) {
-                return '<input type="checkbox" name="destroy[' . $booking->id . ']" value="' . $booking->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($booking) {
-                return Carbon::parse($booking->created_at)->format('d-m-Y H:i:s');
-            })
-
-            ->editColumn('discount_id', function ($booking) {
-                return $booking->discount->code;
-            })
-
-            ->editColumn('price', function ($booking) {
-                return number_format($booking->price) . 'đ';
-            })
-            ->rawColumns(['edit', 'delete', 'destroy'])
-            ->toJson();
-    }
-
-    public function loadDataSoftDelete()
-    {
-        $bookings = Booking::select(['id', 'name', 'phone', 'email', 'checkin','checkout','user_id','discount_id', 'created_at'])->onlyTrashed()->latest();
-
-        return DataTables::of($bookings)
-            ->addColumn('restore', function ($booking) {
-                return '<a href="' . route('admin.bookings.restore', $booking->id) . '" class="btn btn-primary">Khôi phục</a>';
-            })
-
-            ->addColumn('destroy', function ($booking) {
-                return '<input type="checkbox" name="destroy[' . $booking->id . ']" value="' . $booking->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($booking) {
-                return Carbon::parse($booking->created_at)->format('d-m-Y H:i:s');
-            })
-
-            ->editColumn('discount_id', function ($booking) {
-                return $booking->discount->code;
-            })
-
-            ->editColumn('price', function ($booking) {
-                return number_format($booking->price) . 'đ';
-            })
-            ->rawColumns(['restore', 'destroy'])
-            ->toJson();
-    }
+   
+    
 
     public function showSoftDelete()
     {

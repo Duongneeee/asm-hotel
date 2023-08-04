@@ -17,8 +17,8 @@ class RoomController extends Controller
      */
     public function index()
     {
-
-        return view('layouts.admin.room.lists');
+        $rooms = Room::orderBy('id','desc')->get();
+        return view('layouts.admin.room.lists',compact('rooms'));
     }
 
     /**
@@ -27,7 +27,7 @@ class RoomController extends Controller
     public function create()
     {
         $hotels = Hotel::all();
-        $roomtypes = Roomtype::all();
+        $roomtypes = Roomtype::with('roomtype')->all();
         return view('layouts.admin.room.add', compact('hotels', 'roomtypes'));
     }
 
@@ -100,83 +100,13 @@ class RoomController extends Controller
         return redirect()->route('admin.rooms.index')->with('msg', 'Không có dữ liệu để xóa');
     }
 
-    public function loadData()
-    {
+    
 
-        $rooms = Room::select(['id', 'name', 'image', 'description', 'status', 'hotel_id', 'roomtype_id', 'created_at'])->latest();
-
-        return DataTables::of($rooms)
-            ->addColumn('edit', function ($room) {
-                return '<a href="' . route('admin.rooms.edit', $room->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($room) {
-                return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-            })
-
-            ->addColumn('destroy', function ($room) {
-                return '<input type="checkbox" name="destroy[' . $room->id . ']" value="' . $room->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($room) {
-                return Carbon::parse($room->created_at)->format('d-m-Y H:i:s');
-            })
-
-            ->editColumn('image', function ($room) {
-                return '<img src="' . asset('storage/images/' . $room->image) . '" width="100" height="100">';
-            })
-            ->editColumn('hotel_id', function ($room) {
-                return $room->hotel->name;
-            })
-
-            ->editColumn('roomtype_id', function ($room) {
-                return $room->roomtype->name;
-            })
-
-            ->editColumn('price', function ($room) {
-                return number_format($room->price) . 'đ';
-            })
-            ->rawColumns(['edit', 'delete', 'destroy', 'image'])
-            ->toJson();
-    }
-
-    public function loadDataSoftDelete()
-    {
-        $rooms = Room::select(['id', 'name', 'image', 'description', 'status', 'hotel_id', 'roomtype_id', 'created_at'])->onlyTrashed()->latest();
-
-        return DataTables::of($rooms)
-            ->addColumn('restore', function ($room) {
-                return '<a href="' . route('admin.rooms.restore', $room->id) . '" class="btn btn-primary">Khôi phục</a>';
-            })
-
-            ->addColumn('destroy', function ($room) {
-                return '<input type="checkbox" name="destroy[' . $room->id . ']" value="' . $room->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($room) {
-                return Carbon::parse($room->created_at)->format('d-m-Y H:i:s');
-            })
-            ->editColumn('image', function ($room) {
-                return '<img src="' . asset('storage/images/' . $room->image) . '" width="100" height="100">';
-            })
-
-            ->editColumn('hotel_id', function ($room) {
-                return $room->hotel->name;
-            })
-
-            ->editColumn('roomtype_id', function ($room) {
-                return $room->roomtype->name;
-            })
-
-            ->editColumn('price', function ($room) {
-                return number_format($room->price) . 'đ';
-            })
-            ->rawColumns(['restore', 'destroy', 'image'])
-            ->toJson();
-    }
 
     public function showSoftDelete()
     {
-        return view('layouts.admin.room.softdelete');
+        $rooms = Room::onlyTrashed()->orderBy('id','desc')->get();
+        return view('layouts.admin.room.softdelete',compact('rooms'));
     }
 
     public function restore($id)

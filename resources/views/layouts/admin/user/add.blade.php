@@ -84,8 +84,10 @@
             <div class="mb-3">
                 <label for="">Role</label>
                 <select name="role_id" id="" class="form-control {{$errors->has('role_id')?'is-invalid':''}}">
-                    <option value="0">Trống</option>
-                    <option value="1">Admin</option>
+                    <option value="">Trống</option>
+                    @foreach ($roles as $role)
+                        <option value="{{$role->id}}" {{old('role_id') == $role->id ? 'selected':false}}>{{$role->name}}</option>
+                    @endforeach
                 </select>
                 @error('role_id')
                 <div  class="invalid-feedback">

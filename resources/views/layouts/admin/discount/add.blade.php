@@ -44,7 +44,7 @@
         <div class="col-6">
             <div class="mb-3 ">
                 <label for="">giá giảm</label>
-                <input type="number" name="price" class="form-control {{$errors->has('price')?'is-invalid':''}}" placeholder="Giá giảm..." value="{{old('price')}}">
+                <input type="number" step="any" name="price" class="form-control {{$errors->has('price')?'is-invalid':''}}" placeholder="Giá giảm..." value="{{old('price')}}">
                 @error('price')
                 <div  class="invalid-feedback">
                     {{$message}}

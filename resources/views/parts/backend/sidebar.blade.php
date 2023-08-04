@@ -27,6 +27,7 @@
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
+    @can('users')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_users"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -40,7 +41,9 @@
             </div>
         </div>
     </li>
+    @endcan
 
+    @can('hotels')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_hotels"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -54,7 +57,9 @@
             </div>
         </div>
     </li>
+    @endcan
 
+    @can('roomtypes')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_roomtypes"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -68,6 +73,9 @@
             </div>
         </div>
     </li>
+    @endcan
+
+    @can('rooms')
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_rooms"
@@ -82,7 +90,9 @@
             </div>
         </div>
     </li>
+    @endcan
 
+    @can('discounts')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_discounts"
             aria-expanded="true" aria-controls="collapseTwo">
@@ -96,6 +106,9 @@
             </div>
         </div>
     </li>
+    @endcan
+
+    @can('bookings')
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_bookings"
@@ -110,6 +123,9 @@
             </div>
         </div>
     </li>
+    @endcan
+
+    @can('booking_details')
 
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_booking_details"
@@ -124,6 +140,38 @@
             </div>
         </div>
     </li>
+    @endcan
+
+    @can('roles')
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_roles"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Role</span>
+        </a>
+        <div id="collapse_roles" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{route('admin.roles.index')}}">List</a>
+                <a class="collapse-item" href="{{route('admin.roles.create')}}">Add</a>
+            </div>
+        </div>
+    </li>
+    @endcan
+
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapse_banners"
+            aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-cog"></i>
+            <span>Banner</span>
+        </a>
+        <div id="collapse_banners" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{route('admin.banners.index')}}">List</a>
+                <a class="collapse-item" href="{{route('admin.banners.create')}}">Add</a>
+            </div>
+        </div>
+    </li>
 
     <!-- Nav Item - Utilities Collapse Menu -->
     
@@ -132,12 +180,12 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    {{-- <div class="sidebar-heading">
         Addons
-    </div>
+    </div> --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
             aria-expanded="true" aria-controls="collapsePages">
             <i class="fas fa-fw fa-folder"></i>
@@ -155,21 +203,21 @@
                 <a class="collapse-item" href="blank.html">Blank Page</a>
             </div>
         </div>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="charts.html">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Charts</span></a>
-    </li>
+    </li> --}}
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
+    {{-- <li class="nav-item">
         <a class="nav-link" href="tables.html">
             <i class="fas fa-fw fa-table"></i>
             <span>Tables</span></a>
-    </li>
+    </li> --}}
 
     <!-- Divider -->
     <hr class="sidebar-divider d-none d-md-block">

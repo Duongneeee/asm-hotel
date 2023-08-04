@@ -18,28 +18,52 @@
     <table id="datatable" class="table table-bordered">
         <thead>
             <tr>
-                <th>Delete</th>
+                @can('forcedelete',App\Models\Hotel::class)
+                <th width="10%">Delete</th>
+                @endcan
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Địa chỉ</th>
                 <th>Mô tả</th>
-                <th>Thời gian</th>
-                <th>khôi phục</th>
+                <th width="15%">Thời gian</th>
+                @can('restore',App\Models\Hotel::class)
+                <th width="7%">Khôi phục</th>
+                @endcan
             </tr>
     
         </thead>
         <tfoot>
             <tr>
+                @can('forcedelete',App\Models\Hotel::class)
                 <th><button type="submit" class="btn btn-danger delete-all">Xóa tất cả</button></th>
+                @endcan
                 <th>ID</th>
                 <th>Tên</th>
                 <th>Địa chỉ</th>
                 <th>Mô tả</th>
                 <th>Thời gian</th>
-                <th>Khôi phục</th>
-    
+                @can('restore',App\Models\Hotel::class)
+                <th>khôi phục</th>
+                @endcan
             </tr>
         </tfoot>
+        <tbody>
+            @foreach ($hotels as $hotel)
+            <tr>
+                @can('forcedelete',App\Models\Hotel::class)
+                <td><input type="checkbox" class="" name="destroy[{{$hotel->id}}]" value="{{$hotel->id}}" ></td>
+                @endcan
+                <td>{{$hotel->id}}</td>
+                <td>{{$hotel->name}}</td>
+                <td>{{$hotel->address}}</td>
+                <td>{{$hotel->description}}</td>
+                <td>{{$hotel->created_at}}</td>
+                @can('restore',App\Models\Hotel::class)
+                <td><a href="{{route('admin.hotels.restore', $hotel->id)}}" class="btn btn-primary">Khôi phục</a></td>
+                @endcan
+            </tr>
+            @endforeach
+        </tbody>
     </table>
     
 </form>
@@ -47,7 +71,7 @@
 @include('parts.backend.delete')
 @endsection
 @section('scripts')
-<script>
+{{-- <script>
     $(document).ready(function () {
     $('#datatable').DataTable({
         ajax: '{{route('admin.hotels.data_softdelete')}}' ,
@@ -68,5 +92,5 @@
 
 
 
-</script>
+</script> --}}
 @endsection

@@ -15,7 +15,8 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.discount.lists');
+        $discounts =Discount::orderBy('id','desc')->get();
+        return view('layouts.admin.discount.lists',compact('discounts'));
     }
 
     /**
@@ -83,62 +84,14 @@ class DiscountController extends Controller
         return redirect()->route('admin.discounts.index')->with('msg', 'Không có dữ liệu để xóa');
     }
 
-    public function loadData()
-    {
+    
 
-        $discounts = Discount::select(['id', 'code', 'start', 'end', 'price', 'value', 'created_at'])->latest();
-
-        return DataTables::of($discounts)
-            ->addColumn('edit', function ($discount) {
-                return '<a href="' . route('admin.discounts.edit', $discount->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($discount) {
-                return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-            })
-
-            ->addColumn('destroy', function ($discount) {
-                return '<input type="checkbox" name="destroy[' . $discount->id . ']" value="' . $discount->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($discount) {
-                return Carbon::parse($discount->created_at)->format('d-m-Y H:i:s');
-            })
-
-
-            ->editColumn('price', function ($discount) {
-                return number_format($discount->price) . 'đ';
-            })
-            ->rawColumns(['edit', 'delete', 'destroy'])
-            ->toJson();
-    }
-
-    public function loadDataSoftDelete()
-    {
-        $discounts = discount::select(['id', 'code', 'start', 'end', 'price', 'value', 'created_at'])->onlyTrashed()->latest();
-
-        return DataTables::of($discounts)
-            ->addColumn('restore', function ($discount) {
-                return '<a href="' . route('admin.discounts.restore', $discount->id) . '" class="btn btn-primary">Khôi phục</a>';
-            })
-
-            ->addColumn('destroy', function ($discount) {
-                return '<input type="checkbox" name="destroy[' . $discount->id . ']" value="' . $discount->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($discount) {
-                return Carbon::parse($discount->created_at)->format('d-m-Y H:i:s');
-            })
-
-            ->editColumn('price', function ($discount) {
-                return number_format($discount->price) . 'đ';
-            })
-            ->rawColumns(['restore', 'destroy'])
-            ->toJson();
-    }
+    
 
     public function showSoftDelete()
     {
-        return view('layouts.admin.discount.softdelete');
+        $discounts = Discount::onlyTrashed()->orderBy('id','desc')->get();
+        return view('layouts.admin.discount.softdelete',compact('discounts'));
     }
 
     public function restore($id)

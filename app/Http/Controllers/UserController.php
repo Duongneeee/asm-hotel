@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Role;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -17,39 +18,20 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.user.lists');
+        $users = User::orderBy('created_at','desc')->get();
+        return view('layouts.admin.user.lists',compact('users'));
     }
 
-    public function loadData()
-    {
-        $users = DB::table('users')->select(['id', 'name', 'email', 'phone','address', 'created_at'])->latest();
-
-        return DataTables::of($users)
-            ->addColumn('edit', function ($user) {
-                return '<a href="' . route('admin.users.edit', $user->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($user) {
-                return '<a href="' . route('admin.users.delete', $user->id) . '" class="btn btn-danger delete-action">Xóa</a>';
-            })
-
-            ->editColumn('created_at', function ($user) {
-                return Carbon::parse($user->created_at)->format('d-m-Y H:i:s');
-            })
-            ->rawColumns(['edit', 'delete'])
-            ->toJson();
-    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view('layouts.admin.user.add');
+        $roles = Role::all();
+        return view('layouts.admin.user.add',compact('roles'));
     }
 
-    public function data()
-    {
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -82,7 +64,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('layouts.admin.user.edit', compact('user'));
+        $roles = Role::all();
+        return view('layouts.admin.user.edit', compact('user','roles'));
     }
 
     /**

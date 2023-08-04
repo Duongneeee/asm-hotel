@@ -3,7 +3,8 @@
         <div class="row">
             <div class="top-bar">
                 <ul>
-                    <li><a class='dropdown-button' href='#' data-activates='dropdown1'> My Account <i class="fa fa-angle-down"></i></a>
+                    <li><a class='dropdown-button' href='#' data-activates='dropdown1'> My Account <i
+                                class="fa fa-angle-down"></i></a>
                     </li>
                     <li><a href="all-hotels.html">Our Hotels</a>
                     </li>
@@ -11,7 +12,8 @@
                     </li>
                     <li><a href="contact-us.html">Contact Us</a>
                     </li>
-                    <li><a class='dropdown-button' href='#' data-activates='dropdown2'>Language <i class="fa fa-angle-down"></i></a>
+                    <li><a class='dropdown-button' href='#' data-activates='dropdown2'>Language <i
+                                class="fa fa-angle-down"></i></a>
                     </li>
                     <li><a href="#">Toll Free No: 1800 102 7275</a>
                     </li>
@@ -21,29 +23,57 @@
                 <!-- Dropdown Structure -->
                 <ul id='dropdown1' class='dropdown-content drop-con-man'>
                     <li>
-                        <a href="dashboard.html"><img src="{{asset('/frontend/images/icon/15.png')}}" alt=""> My Account</a>
+                        <a href="dashboard.html"><img src="{{asset('/frontend/images/icon/15.png')}}" alt=""> My
+                            Account</a>
                     </li>
                     <li>
-                        <a href="db-profile.html"><img src="{{asset('/frontend/images/icon/2.png')}}" alt=""> My Profile</a>
+                        <a href="db-profile.html"><img src="{{asset('/frontend/images/icon/2.png')}}" alt=""> My
+                            Profile</a>
                     </li>
                     <li>
-                        <a href="db-booking.html"><img src="{{asset('/frontend/images/icon/16.png')}}" alt=""> My Bookings</a>
+                        <a href="db-booking.html"><img src="{{asset('/frontend/images/icon/16.png')}}" alt=""> My
+                            Bookings</a>
                     </li>
                     <li>
-                        <a href="db-event.html"><img src="{{asset('/frontend/images/icon/17.png')}}" alt=""> My Events</a>
+                        <a href="db-event.html"><img src="{{asset('/frontend/images/icon/17.png')}}" alt=""> My
+                            Events</a>
+                    </li>
+
+                    <li>
+                        <a href=""><img src="{{asset('/frontend/images/icon/14.png')}}" alt=""> My Activity</a>
+                    </li>
+
+                    @if (Auth::user())
+                    
+                    @if (Auth::user()->role->name == 'Admin')
+                    <li>
+                        <a href="{{route('admin.dashboard')}}"><img src="{{asset('/frontend/images/icon/5.png')}}"
+                                alt=""> Admin</a>
+                    </li>
+                    @endif
+
+                    <form method="POST" action="{{ route('logout')}}" id="myForm">
+                        @csrf
+                        <li>
+                            <a href="" id="submitButton"><img src="{{asset('/frontend/images/icon/14.png')}}" alt="">
+                                Logout</a>
+                        </li>
+                    </form>
+                    @else
+                    <li>
+                        <a href="{{route('register')}}" {{--data-toggle="modal" data-target="#modal2" --}}><img
+                                src="{{asset('/frontend/images/icon/5.png')}}" alt=""> Register</a>
                     </li>
                     <li>
-                        <a href="db-activity.html"><img src="{{asset('/frontend/images/icon/14.png')}}" alt=""> My Activity</a>
+                        <a href="{{route('login')}}" {{--data-toggle="modal" data-target="#modal1" --}}><img
+                                src="{{asset('frontend/images/icon/6.png')}}" alt=""> Log In</a>
                     </li>
                     <li>
-                        <a href="{{route('register')}}" {{--data-toggle="modal" data-target="#modal2" --}}><img src="{{asset('/frontend/images/icon/5.png')}}" alt=""> Register</a>
+                        <a href="{{route('password.request')}}" {{--data-toggle="modal" data-target="#modal3" --}}><img
+                                src="{{asset('/frontend/images/icon/13.png')}}" alt=""> Forgot Password</a>
                     </li>
-                    <li>
-                         <a href="{{route('login')}}" {{--data-toggle="modal" data-target="#modal1"--}}><img src="{{asset('frontend/images/icon/6.png')}}" alt=""> Log In</a> 
-                    </li>
-                    <li>
-                        <a href="{{route('password.request')}}" {{--data-toggle="modal" data-target="#modal3" --}}><img src="{{asset('/frontend/images/icon/13.png')}}" alt=""> Forgot Password</a>
-                    </li>
+                    @endif
+   
                 </ul>
                 <!-- Dropdown Structure -->
                 <ul id='drop-home' class='dropdown-content drop-con-man'>
@@ -204,9 +234,11 @@
             </div>
             <div class="menu-bar">
                 <ul>
-                    <li><a href="#" class='dropdown-button' data-activates='drop-home'>Home <i class="fa fa-angle-down"></i></a>
+                    <li><a href="#" class='dropdown-button' data-activates='drop-home'>Home <i
+                                class="fa fa-angle-down"></i></a>
                     </li>
-                    <li><a href="#" class='dropdown-button' data-activates='drop-room'>Rooms <i class="fa fa-angle-down"></i></a>
+                    <li><a href="#" class='dropdown-button' data-activates='drop-room'>Rooms <i
+                                class="fa fa-angle-down"></i></a>
                     </li>
                     <li><a href="services.html">Services</a>
                     </li>
@@ -216,7 +248,8 @@
                     </li>
                     <li><a href="aminities1.html">Amenities</a>
                     </li>
-                    <li><a href="#" class='dropdown-button' data-activates='drop-page'>Pages <i class="fa fa-angle-down"></i></a>
+                    <li><a href="#" class='dropdown-button' data-activates='drop-page'>Pages <i
+                                class="fa fa-angle-down"></i></a>
                     </li>
                 </ul>
             </div>

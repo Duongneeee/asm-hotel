@@ -15,7 +15,8 @@ class RoomtypeController extends Controller
      */
     public function index()
     {
-        return view('layouts.admin.roomtype.lists');
+        $roomtypes = Roomtype::orderBy('id','desc')->get();
+        return view('layouts.admin.roomtype.lists', compact('roomtypes'));
     }
 
     /**
@@ -103,68 +104,11 @@ class RoomtypeController extends Controller
         return redirect()->route('admin.roomtypes.index')->with('msg', 'Không có dữ liệu để xóa');
     }
 
-    public function loadData()
-    {
-
-        $roomtypes = Roomtype::select(['id', 'name', 'price', 'image', 'created_at'])->latest();
-
-        return DataTables::of($roomtypes)
-            ->addColumn('edit', function ($roomtype) {
-                return '<a href="' . route('admin.roomtypes.edit', $roomtype->id) . '" class="btn btn-warning">Sửa</a>';
-            })
-            ->addColumn('delete', function ($roomtype) {
-                return '<a href="" class="btn btn-danger delete-action">Xóa</a>';
-            })
-
-            ->addColumn('destroy', function ($roomtype) {
-                return '<input type="checkbox" name="destroy[' . $roomtype->id . ']" value="' . $roomtype->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($roomtype) {
-                return Carbon::parse($roomtype->created_at)->format('d-m-Y H:i:s');
-            })
-
-            ->editColumn('image', function ($roomtype) {
-                return '<img src="' . asset('storage/images/' . $roomtype->image) . '" width="100" height="100">';
-            })
-
-            ->editColumn('price', function ($roomtype) {
-                return number_format($roomtype->price) . 'đ';
-            })
-            ->rawColumns(['edit', 'delete', 'destroy', 'image'])
-            ->toJson();
-    }
-
-    public function loadDataSoftDelete()
-    {
-        $roomtypes = roomtype::select(['id', 'name', 'price', 'image', 'description', 'created_at'])->onlyTrashed()->latest();
-
-        return DataTables::of($roomtypes)
-            ->addColumn('restore', function ($roomtype) {
-                return '<a href="' . route('admin.roomtypes.restore', $roomtype->id) . '" class="btn btn-primary">Khôi phục</a>';
-            })
-
-            ->addColumn('destroy', function ($roomtype) {
-                return '<input type="checkbox" name="destroy[' . $roomtype->id . ']" value="' . $roomtype->id . '" >';
-            })
-
-            ->editColumn('created_at', function ($roomtype) {
-                return Carbon::parse($roomtype->created_at)->format('d-m-Y H:i:s');
-            })
-            ->editColumn('image', function ($roomtype) {
-                return '<img src="' . asset('storage/images/' . $roomtype->image) . '" width="100" height="100">';
-            })
-
-            ->editColumn('price', function ($roomtype) {
-                return number_format($roomtype->price) . 'đ';
-            })
-            ->rawColumns(['restore', 'destroy', 'image'])
-            ->toJson();
-    }
 
     public function showSoftDelete()
     {
-        return view('layouts.admin.roomtype.softdelete');
+        $roomtypes = RoomType::onlyTrashed()->orderBy('id','desc')->get();
+        return view('layouts.admin.roomtype.softdelete',compact('roomtypes'));
     }
 
     public function restore($id)
