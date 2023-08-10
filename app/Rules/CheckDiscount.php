@@ -5,6 +5,7 @@ namespace App\Rules;
 use Closure;
 use App\Models\Discount;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Facades\Request;
 
 class CheckDiscount implements ValidationRule
 {
@@ -13,7 +14,7 @@ class CheckDiscount implements ValidationRule
      *
      * @param  \Closure(string): \Illuminate\Translation\PotentiallyTranslatedString  $fail
      */
-    public function validate(string $attribute, mixed $value, Closure $fail): void
+    public function validate(string $attribute, mixed $value,Closure $fail): void
     {
         $discount = Discount::where('code', $value)
             ->where('start', '<=', now())

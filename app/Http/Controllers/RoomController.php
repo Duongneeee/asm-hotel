@@ -27,7 +27,7 @@ class RoomController extends Controller
     public function create()
     {
         $hotels = Hotel::all();
-        $roomtypes = Roomtype::with('roomtype')->all();
+        $roomtypes = Roomtype::all();
         return view('layouts.admin.room.add', compact('hotels', 'roomtypes'));
     }
 

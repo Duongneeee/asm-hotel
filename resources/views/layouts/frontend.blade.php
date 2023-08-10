@@ -355,18 +355,17 @@
 			</div>
 		</section>
 
-		<script>
-			document.getElementById("submitButton").addEventListener("click", function(event) {
-event.preventDefault(); // Ngăn chặn hành vi mặc định của thẻ <a>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+    $(".submit-link").click(function(event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định của liên kết
 
-  // Tìm đến form và gửi form
-document.getElementById("myForm").submit();
-
-
-
+        // Gửi form khi người dùng nhấp vào liên kết
+        $(this).closest(".my-form").submit();
+    });
 });
-
-		</script>
+</script>
 		<!--ALL SCRIPT FILES-->
 		<script src="{{asset('frontend/js/jquery.min.js')}}"></script>
 		<script src="{{asset('frontend/js/jquery-ui.js')}}"></script>

@@ -33,6 +33,12 @@ class ClientBookingReuqest extends FormRequest
 
         ];
 
+        if (!$this->code_discount){
+            unset($rules['code_discount']);
+        }
+
+
+
         return $rules;
     }
 

@@ -66,6 +66,9 @@
         <div class="row">
             <div class="col-md-8">
                 <div class="row">
+                    @if (session('msg'))
+                        <p class="alert alert-success">{{session('msg')}}</p>
+                    @endif
                     <div class="hp-section">
                         <div class="hp-sub-tit">
                             <h4>{{$room->roomtype->name}}</h4>
@@ -498,9 +501,9 @@
                     <div class="hp-call-in"> <img src="{{asset('frontend/images/icon/dbc4.png')}}" alt="">
                         <h3><span>Check Availability. Call us!</span> +01 4214 4214</h3> <small>We are available 24/7
                             Monday to Sunday</small>
-                            <a href="#">Call Now</a>
-                            <h3 style="margin-top: 15px;"><span >And</span></h3>
                             <a href="{{route('client.booking-room',$room->id)}}">Booking</a>
+                            <h3 style="margin-top: 15px;"><span >And</span></h3>
+                            <a href="{{route('client.add-to-cart',$room->id)}}">Add to cart</a>
                     </div>
                 </div>
                 <!--=========================================-->

@@ -18,7 +18,7 @@
     <table id="datatable" class="table table-bordered">
         <thead>
             <tr>
-                @can('forcedelete',App\Models\Discount::class)
+                @can('forceDelete',App\Models\Discount::class)
                 <th>Delete</th>
                 @endcan
                 <th>ID</th>
@@ -36,7 +36,7 @@
         </thead>
         <tfoot>
             <tr>
-                @can('forcedelete',App\Models\Discount::class)
+                @can('forceDelete',App\Models\Discount::class)
                 <th><button type="submit" class="btn btn-danger delete-all">Xóa tất cả</button></th>
                 @endcan
                 <th>ID</th>
@@ -55,9 +55,10 @@
         <tbody>
             @foreach ($discounts as $discount)
                 <tr>
-                    @can('forcedelete',App\Models\Discount::class)
+                    @can('forceDelete',App\Models\Discount::class)
                     <td><input type="checkbox" name="destroy[{{$discount->id}}]" value="{{$discount->id}}" ></td>
                     @endcan
+                </form>
                     <td>{{$discount->id}}</td>
                     <td>{{$discount->code}}</td>
                     <td>{{$discount->start}}</td>
@@ -66,14 +67,18 @@
                     <td>{{$discount->value}}</td>
                     <td>{{$discount->created_at}}</td>
                     @can('restore',App\Models\Discount::class)
-                    <td><a href="{{route('admin.discounts.restore', $discount->id)}}" class="btn btn-primary">Khôi phục</a></td>
+                    {{-- <td><a href="{{route('admin.discounts.restore', $discount->id)}}" class="btn btn-primary">Khôi phục</a></td> --}}
+                    <form action="{{route('admin.discounts.restore', $discount->id)}}" method="POST">
+                        @csrf
+                        <td><button type="submit" class="btn btn-primary">Khôi phục</button></td>
+                    </form>
                     @endcan
                 </tr>
             @endforeach
         </tbody>
     </table>
     
-</form>
+
 
 @include('parts.backend.delete')
 @endsection

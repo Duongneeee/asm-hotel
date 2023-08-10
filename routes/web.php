@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\BannerController;
+use App\Models\Role;
 use App\Models\Room;
 use App\Models\Hotel;
 use App\Models\Booking;
@@ -12,7 +12,9 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\HotelController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\RoomtypeController;
@@ -37,10 +39,40 @@ Route::prefix('client')->name('client.')->group(function(){
     Route::get('/detail-room/{id}',[ClientController::class,'roomDetail'])->name('detail-room');
     Route::get('/booking-room/{id}',[ClientController::class,'roomBooking'])->name('booking-room');
     Route::post('/booking-room/{id}',[ClientController::class,'postRoomBooking'])->name('post-booking-room');
+    Route::get('/success',[ClientController::class,'successBooking'])->name('success');
+    Route::get('/pending',[ClientController::class,'pendingBooking'])->name('pending');
+    Route::get('/add-to-cart/{id}',[ClientController::class,'addToCart'])->name('add-to-cart');
+    Route::get('/cart',[ClientController::class,'cart'])->name('cart');
+    Route::delete('/cart-remove/{id}',[ClientController::class,'cartRemove'])->name('cart-remove');
+    Route::post('/cart-post',[ClientController::class,'cartAdd'])->name('cart-post');
+    
+
+    Route::prefix('accounts')->name('accounts.')->middleware('auth')->group(function(){
+
+        Route::get('/',[AccountController::class,'index'])->name('index');
+
+        Route::get('/mybooking',[AccountController::class,'indexMyBooking'])->name('mybooking');
+
+        Route::get('/create',[AccountController::class,'create'])->name('create')->can('create',Hotel::class);
+
+        Route::post('/create',[AccountController::class,'store'])->name('store')->can('create',Hotel::class);
+
+        Route::get('/edit/{hotel}',[AccountController::class,'edit'])->name('edit')->can('update',Hotel::class);
+
+        Route::post('/edit/{hotel}',[AccountController::class,'update'])->name('update')->can('update',Hotel::class);
+
+        Route::delete('/destroy',[AccountController::class,'destroy'])->name('destroy')->can('delete',Hotel::class);
+
+        Route::get('/softdelete',[AccountController::class,'showSoftDelete'])->name('showsoftdelete');
+
+        Route::get('/restore/{id}',[AccountController::class,'restore'])->name('restore')->can('restore',Hotel::class);
+
+        Route::delete('/force_delete',[AccountController::class,'forceDelete'])->name('force_delete')->can('forcedelete',Hotel::class);
+    });
 
 });
 
-Route::prefix('admin')->middleware(['auth','verified','admin'])->name('admin.')->group(function(){
+Route::prefix('admin')->middleware(['auth','verified'])->name('admin.')->group(function(){
 
     Route::get('/dashboard', function(){
         return view('parts.backend.dashboard');
@@ -134,7 +166,7 @@ Route::prefix('admin')->middleware(['auth','verified','admin'])->name('admin.')-
 
         Route::get('/softdelete',[DiscountController::class,'showSoftDelete'])->name('showsoftdelete');
 
-        Route::get('/restore/{id}',[DiscountController::class,'restore'])->name('restore')->can('restore',Discount::class);
+        Route::post ('/restore/{id}',[DiscountController::class,'restore'])->name('restore')->can('restore',Discount::class);
 
         Route::delete('/force_delete',[DiscountController::class,'forceDelete'])->name('force_delete')->can('forcedelete',Discount::class);;
     });
@@ -166,29 +198,29 @@ Route::prefix('admin')->middleware(['auth','verified','admin'])->name('admin.')-
        
     });
 
-    Route::prefix('roles')->name('roles.')->group(function(){
+    Route::prefix('roles')->name('roles.')->middleware('can:roles')->group(function(){
 
         Route::get('/',[RoleController::class,'index'])->name('index');
 
-        Route::get('/create',[RoleController::class,'create'])->name('create');
+        Route::get('/create',[RoleController::class,'create'])->name('create')->can('create',Role::class);;
 
-        Route::post('/create',[RoleController::class,'store'])->name('store');
+        Route::post('/create',[RoleController::class,'store'])->name('store')->can('create',Role::class);;
 
-        Route::get('/edit/{role}',[RoleController::class,'edit'])->name('edit');
+        Route::get('/edit/{role}',[RoleController::class,'edit'])->name('edit')->can('update',Role::class);;
 
-        Route::post('/edit/{role}',[RoleController::class,'update'])->name('update');
+        Route::post('/edit/{role}',[RoleController::class,'update'])->name('update')->can('update',Role::class);;
 
-        Route::delete('/destroy',[RoleController::class,'destroy'])->name('destroy');
+        Route::delete('/destroy',[RoleController::class,'destroy'])->name('destroy')->can('delete',Role::class);;
 
         Route::get('/softdelete',[RoleController::class,'showSoftDelete'])->name('showsoftdelete');
 
-        Route::get('/restore/{id}',[RoleController::class,'restore'])->name('restore');
+        Route::get('/restore/{id}',[RoleController::class,'restore'])->name('restore')->can('restore',Role::class);;
 
-        Route::delete('/force_delete',[RoleController::class,'forceDelete'])->name('force_delete');
+        Route::delete('/force_delete',[RoleController::class,'forceDelete'])->name('force_delete')->can('forceDelete',Role::class);;
 
-        Route::get('/permission/{role}',[RoleController::class,'permission'])->name('permission');
+        Route::get('/permission/{role}',[RoleController::class,'permission'])->name('permission')->can('roles.permission');
 
-        Route::post('/permission/{role}',[RoleController::class,'postPermission']);
+        Route::post('/permission/{role}',[RoleController::class,'postPermission'])->can('roles.permission');
 
     });
 

@@ -20,7 +20,7 @@ class sendMailBooking extends Mailable
      */
 
      protected $booking_detail;
-    public function __construct(Booking_detail $booking_detail)
+    public function __construct($booking_detail)
     {
         return $this->booking_detail = $booking_detail;
     }

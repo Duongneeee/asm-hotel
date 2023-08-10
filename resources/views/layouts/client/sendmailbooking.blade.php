@@ -34,16 +34,20 @@
                             <td>Checkin</td>
                             <td>Checkout</td>
                             <td>price</td>
-                            <td>Amount</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <td>{{$booking_detail->booking->name}}</td>
-                        <td>{{$booking_detail->room->name}}</td>
-                        <td>{{$booking_detail->booking->checkin}}</td>
-                        <td>{{$booking_detail->booking->checkout}}</td>
-                        <td>{{$booking_detail->price}}</td>
-                        <td>{{$booking_detail->amount}}</td>
+                        @foreach ($booking_detail as $item)
+                            
+                        @endforeach
+                        <tr>
+                            <td>{{$item->booking->name}}</td>
+                            <td>{{$item->room->name}}</td>
+                            <td>{{$item->booking->checkin}}</td>
+                            <td>{{$item->booking->checkout}}</td>
+                            <td>{{$item->price}}</td>
+                        </tr>
+
                     </tbody>
                 </table>
             </div>
@@ -55,7 +59,7 @@
     </script>
 
     <style>
-        .font-all{
+        .font-all {
             font-family: 'Tektur', cursive;
         }
     </style>

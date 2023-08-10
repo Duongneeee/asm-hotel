@@ -10,6 +10,8 @@ class Hotel extends Model
 {
     use HasFactory,SoftDeletes;
 
+   
+
     public function rooms(){
         return $this->hasMany(Room::class);
     }

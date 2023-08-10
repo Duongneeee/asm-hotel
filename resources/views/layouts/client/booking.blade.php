@@ -1,47 +1,13 @@
 @extends('layouts.frontend')
 @section('content')
 <div class="dashboard">
-    <div class="db-left">
-        <div class="db-left-1">
-            <h4>Jana Novakova</h4>
-            <p>Newyork, United States</p>
-        </div>
-        <div class="db-left-2">
-            <ul>
-                <li>
-                    <a href="dashboard.html"><img src="{{asset('frontend/images/icon/db1.png')}}" alt="" /> All</a>
-                </li>
-                <li>
-                    <a href="db-booking.html"><img src="{{asset('frontend/images/icon/db2.png')}}" alt="" /> My
-                        Bookings</a>
-                </li>
-                {{-- <li>
-                    <a href="db-new-booking.html"><img src="{{asset('frontend/images/icon/db3.png')}}" alt="" /> New
-                        Booking</a>
-                </li> --}}
-                <li>
-                    <a href="db-event.html"><img src="{{asset('frontend/images/icon/db4.png')}}" alt="" /> Event</a>
-                </li>
-                <li>
-                    <a href="db-activity.html"><img src="{{asset('frontend/images/icon/db5.png')}}" alt="" />
-                        Activity</a>
-                </li>
-                <li>
-                    <a href="db-profile.html"><img src="{{asset('frontend/images/icon/db7.png')}}" alt="" /> Profile</a>
-                </li>
-                {{-- <li>
-                    <a href="#"><img src="{{asset('frontend/images/icon/db6.png')}}" alt="" /> Payments</a>
-                </li> --}}
-                <li>
-                    <a href="#"><img src="{{asset('frontend/images/icon/db8.png')}}" alt="" /> Logout</a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    @include('parts.frontend.siderbaraccount')
     <div class="db-cent">
         <div class="db-cent-1">
+            @if (Auth::user())
             <p>Hi Jana Novakova,</p>
             <h4>Welcome to your dashboard</h4>
+            @endif
         </div>
         <div class="db-cent-3">
             <div class="db-cent-table db-com-table">
@@ -85,7 +51,7 @@
                             </div>
                             <div class="input-field col s6">
                                 <p>City</p>
-                                <input type="text" placeholder="City" class="validate">
+                                <input type="text" placeholder="City" name="address" class="validate">
                                 {{-- <label>Cty</label> --}}
                             </div>
                         </div>
@@ -135,6 +101,23 @@
                                 @error('code_discount')
                                 <p class="text-danger">{{$message}}</p>
                                 @enderror
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault1" value="pay_now" checked>
+                                    <label class="form-check-label" for="flexRadioDefault1">
+                                      Thanh toán ngay
+                                    </label>
+                                  </div>
+                                  <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault2" value="pay_later">
+                                    <label class="form-check-label" for="flexRadioDefault2">
+                                      Thanh toán sau
+                                    </label>
+                                  </div>
                             </div>
                         </div>
                         <div class="row">

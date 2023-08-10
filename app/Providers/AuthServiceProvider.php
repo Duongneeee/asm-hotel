@@ -4,12 +4,19 @@ namespace App\Providers;
 
 // use Illuminate\Support\Facades\Gate;
 
-use App\Models\Hotel;
-use App\Models\User;
-use App\Models\Module;
 use App\Models\Role;
+use App\Models\Room;
+use App\Models\User;
+use App\Models\Hotel;
+use App\Models\Module;
+use App\Models\Booking;
+use App\Models\Discount;
 use App\Models\Roomtype;
+use App\Policies\RolePolicy;
+use App\Policies\RoomPolicy;
 use App\Policies\HotelPolicy;
+use App\Policies\BookingPolicy;
+use App\Policies\DiscountPolicy;
 use App\Policies\RoomtypePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -24,6 +31,11 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         Hotel::class => HotelPolicy::class,
         Roomtype::class => RoomtypePolicy::class,
+        Discount::class => DiscountPolicy::class,
+        Booking::class => BookingPolicy::class,
+        Room::class => RoomPolicy::class,
+        Role::class => RolePolicy::class,
+
     ];
 
     /**
@@ -76,6 +88,21 @@ class AuthServiceProvider extends ServiceProvider
                         $roleArr = json_decode($roleJson,true);
 
                         $check = isRole($roleArr,$module->name,'delete');
+
+                        return $check;
+                    }
+
+                    return false;
+                });
+
+                Gate::define($module->name.'.permission',function(User $user) use ($module){
+
+                    $roleJson = $user->role->permissions;
+
+                    if(!empty($roleJson)){
+                        $roleArr = json_decode($roleJson,true);
+
+                        $check = isRole($roleArr,$module->name,'permission');
 
                         return $check;
                     }

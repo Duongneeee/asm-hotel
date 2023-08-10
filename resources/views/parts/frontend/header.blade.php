@@ -15,7 +15,7 @@
                     <li><a class='dropdown-button' href='#' data-activates='dropdown2'>Language <i
                                 class="fa fa-angle-down"></i></a>
                     </li>
-                    <li><a href="#">Toll Free No: 1800 102 7275</a>
+                    <li><a href="{{route('client.cart')}}">Giỏ hàng</a>
                     </li>
                 </ul>
             </div>
@@ -23,7 +23,7 @@
                 <!-- Dropdown Structure -->
                 <ul id='dropdown1' class='dropdown-content drop-con-man'>
                     <li>
-                        <a href="dashboard.html"><img src="{{asset('/frontend/images/icon/15.png')}}" alt=""> My
+                        <a href="{{route('client.accounts.index')}}"><img src="{{asset('/frontend/images/icon/15.png')}}" alt=""> My
                             Account</a>
                     </li>
                     <li>
@@ -52,10 +52,10 @@
                     </li>
                     @endif
 
-                    <form method="POST" action="{{ route('logout')}}" id="myForm">
+                    <form method="POST" action="{{ route('logout')}}" class="my-form">
                         @csrf
                         <li>
-                            <a href="" id="submitButton"><img src="{{asset('/frontend/images/icon/14.png')}}" alt="">
+                            <a href="" class="submit-link"><img src="{{asset('/frontend/images/icon/14.png')}}" alt="">
                                 Logout</a>
                         </li>
                     </form>
@@ -77,14 +77,9 @@
                 </ul>
                 <!-- Dropdown Structure -->
                 <ul id='drop-home' class='dropdown-content drop-con-man'>
-                    <li><a href="main.html">Home - Default</a>
+                    <li><a href="{{route('index')}}">Home</a>
                     </li>
-                    <li><a href="index-1.html">Home - Reservation</a>
-                    </li>
-                    <li><a href="index-2.html">Home - FullSlider</a>
-                    </li>
-                    <li><a href="index-3.html">Home - Block Color</a>
-                    </li>
+                    
                 </ul>
                 <!-- Dropdown Structure -->
                 <ul id='dropdown2' class='dropdown-content drop-con-man'>
