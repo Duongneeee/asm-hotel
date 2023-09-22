@@ -17,6 +17,7 @@ window.addEventListener('DOMContentLoaded', event => {
     const tableList = document.querySelector('#datatable');
     const deleteForm = document.querySelector('.delete-form');
     const formall = document.querySelector('.form-all');
+    
 
     tableList.addEventListener('click', (e) => {
         if (e.target.classList.contains("delete-action")) {

@@ -66,12 +66,10 @@
                 @endcan
             </tr>
             @endforeach
-
         </tbody>
     </table>
-
 </form>
-
+@include('layouts.admin.custom_paginate',['items'=>$roomtypes]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->boolean('status')->default(0)->after('user_id');
+            $table->boolean('status_payment')->default(0)->after('status');
         });
     }
 
@@ -23,6 +24,7 @@ return new class extends Migration
     {
         Schema::table('bookings', function (Blueprint $table) {
             $table->dropColumn('status');
+            $table->dropColumn('status_payment');
         });
     }
 };

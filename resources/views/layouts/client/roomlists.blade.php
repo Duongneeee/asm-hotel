@@ -1,306 +1,375 @@
 @extends('layouts.frontend')
 @section('content')
-<div>
-    <div class="slider fullscreen">
-        <ul class="slides">
-            @foreach ($banners as $banner)
-            <li> <img src="{{asset('storage/images/'.$banner->image)}}" alt="">
-                <!-- random image -->
-                <div class="caption center-align slid-cap">
-                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    <h2>This is our big Tagline!</h2>
-                    <p>Mauris non placerat nulla. Sed vestibulum quam mauris, et malesuada tortor venenatis
-                        at.Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor
-                        ut
-                        imperdiet a, pellentesque id mi.</p> 
-                </div>
-            </li>
-            @endforeach
-        </ul>
-    </div>
-</div>
-
-<div class="inn-body-section pad-bot-55">
+<section class="breadcrumb-outer text-center">
     <div class="container">
-        <div class="row">
-            <div class="page-head">
-
-                <h2>{{$roomtype->name}}</h2>
-                <div class="head-title">
-                    <div class="hl-1"></div>
-                    <div class="hl-2"></div>
-                    <div class="hl-3"></div>
-                </div>
-                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut
-                    laoreet.</p>
-            </div>
-            <!--ROOM SECTION-->
-            @foreach ($rooms as $room)
-            <div class="room">
-                <div class="ribbon ribbon-top-left"><span>Featured</span>
-                </div>
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="{{asset('storage/images/'.$room->image)}}" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>{{$room->name}}</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 4.5 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 3</li>
-                        <li>Max Child : 1</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">{{$room->roomtype->price}}</span> <span class="room-price">$:
-                            7000</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="{{route('client.detail-room',$room->id)}}"
-                        class="inn-room-book">Detail</a>
-                </div>
-            </div>
-            @endforeach
-            <!--END ROOM SECTION-->
-            <!--ROOM SECTION-->
-            {{-- <div class="room">
-                <div class="ribbon ribbon-top-left"><span>Featured</span>
-                </div>
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="images/room/2.jpg" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>Mini Suite</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 4.2 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 2</li>
-                        <li>Max Child : 2</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">4000</span> <span class="room-price">$: 4500</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="room-details.html" class="inn-room-book">Book</a>
-                </div>
-            </div>
-            <!--END ROOM SECTION-->
-            <!--ROOM SECTION-->
-            <div class="room">
-                <!--<div class="ribbon ribbon-top-left"><span>Featured</span></div>
-                -->
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="images/room/3.jpg" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>Ultra Deluxe</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 3.9 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 4</li>
-                        <li>Max Child : 2</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">3500</span> <span class="room-price">$: 4000</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="room-details-1.html" class="inn-room-book">Book</a>
-                </div>
-            </div>
-            <!--END ROOM SECTION-->
-            <!--ROOM SECTION-->
-            <div class="room">
-                <!--<div class="ribbon ribbon-top-left"><span>Best Room</span></div>-->
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="images/room/4.jpg" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>Luxury Room</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 4.0 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 5</li>
-                        <li>Max Child : 2</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">3000</span> <span class="room-price">$: 3500</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="room-details.html" class="inn-room-book">Book</a>
-                </div>
-            </div>
-            <!--END ROOM SECTION-->
-            <!--ROOM SECTION-->
-            <div class="room">
-                <div class="ribbon ribbon-top-left"><span>Special</span>
-                </div>
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="images/room/5.jpg" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>Premium Room</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 4.5 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 5</li>
-                        <li>Max Child : 2</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">4000</span> <span class="room-price">$: 5000</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="room-details-block.html" class="inn-room-book">Book</a>
-                </div>
-            </div>
-            <!--END ROOM SECTION-->
-            <!--ROOM SECTION-->
-            <div class="room">
-                <!--<div class="ribbon ribbon-top-left"><span>Featured</span></div>-->
-                <!--ROOM IMAGE-->
-                <div class="r1 r-com"><img src="images/room/6.jpg" alt="" />
-                </div>
-                <!--ROOM RATING-->
-                <div class="r2 r-com">
-                    <h4>Normal Room</h4>
-                    <div class="r2-ratt"> <i class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                            class="fa fa-star"></i> <i class="fa fa-star"></i> <i class="fa fa-star-o"></i> <img
-                            src="images/h-trip.png" alt="" /> <span>Excellent 3.5 / 5</span> </div>
-                    <ul>
-                        <li>Max Adult : 4</li>
-                        <li>Max Child : 4</li>
-                        <li></li>
-                        <li></li>
-                    </ul>
-                </div>
-                <!--ROOM AMINITIES-->
-                <div class="r3 r-com">
-                    <ul>
-                        <li>Ironing facilities</li>
-                        <li>Tea/Coffee maker</li>
-                        <li>Air conditioning</li>
-                        <li>Flat-screen TV</li>
-                        <li>Wake-up service</li>
-                    </ul>
-                </div>
-                <!--ROOM PRICE-->
-                <div class="r4 r-com">
-                    <p>Price for 1 night</p>
-                    <p><span class="room-price-1">2000</span> <span class="room-price">$: 2500</span>
-                    </p>
-                    <p>Non Refundable</p>
-                </div>
-                <!--ROOM BOOKING BUTTON-->
-                <div class="r5 r-com">
-                    <div class="r2-available">Available</div>
-                    <p>Price for 1 night</p> <a href="room-details.html" class="inn-room-book">Book</a>
-                </div>
-            </div> --}}
-            <!--END ROOM SECTION-->
+        <div class="breadcrumb-content">
+            <h2 class="white">@if (!empty($hotel->address))
+                {{$hotel->address}}
+                @endif Hotel </h2>
+            <nav aria-label="breadcrumb">
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{route('index')}}">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">@if (!empty($hotel->address) )
+                        {{$hotel->address}}
+                        @endif Hotel</li>
+                </ul>
+            </nav>
         </div>
     </div>
-</div>1
+    <div class="overlay"></div>
+</section>
+
+<section class="list">
+    <div class="container">
+        <div class="row flex-row-reverse">
+            <div class="col-lg-8 col-12">
+                <div class="trend-box">
+                    @if (session('msg'))
+                    <div class="list-results display-flex space-between ">
+                        <div class="list-results-sort pull-left">
+                            <p class="mar-0 text-danger">{{session('msg')}}</p>
+                        </div>
+                    </div>
+                    @endif
+
+
+                    <div class="row">
+                        @foreach ($rooms as $room)
+                        <div class="col-lg-6 col-md-6 col-12 mar-bottom-30">
+                            <div class="trend-item">
+                                <div class="ribbon ribbon-top-left"><span>25% OFF</span></div>
+                                <div class="trend-image">
+                                    <img src="{{asset('storage/images/'.$room->image)}}" alt="image" />
+                                    <div class="trend-tags">
+                                        <form action="{{route('client.accounts.add-wishlist',$room->id)}}" method="post" class="myForm">
+                                            @csrf
+                                            <a href="#" class="submitLink"><i class="flaticon-like"></i></a>
+                                        </form>
+                                    </div>
+                                    <div class="trend-price">
+                                        <p class="price">From <span>{{number_format($room->roomtype->price)}}VNĐ</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="trend-content">
+                                    <p>{{--<i class="flaticon-location-pin"></i>--}}{{$room->roomtype->name}}</p>
+                                    <h4><a href="{{route('client.detail-room',$room->id)}}">Phòng {{$room->name}}</a>
+                                    </h4>
+                                    <div class="rating mar-bottom-15">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                    <span class="mar-left-5">38 Reviews</span>
+                                    <div class="row">
+                                        <div class="col-6"><a href="{{route('client.booking-room',$room->id)}}"
+                                                class="biz-btn-black">Book now</a></div>
+
+                                        <div class="col-6"><a href="{{route('client.add-to-cart',$room->id)}}"
+                                                class="biz-btn-black text-right">Add to cart</a></div>
+                                    </div>
+
+                                    <p>
+
+                                    </p>
+                                    {{-- <p class="mar-0">{{$room->roomtype->name}}</p> --}}
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @include('layouts.client.custom_paginate',['items'=>$rooms])
+            </div>
+            <div class="col-lg-4 col-12">
+                <div class="list-sidebar">
+                    <div class="sidebar-item">
+                        <form class="filter-box myForm" action="{{route('client.room-search')}}" method="POST">
+                            @csrf
+                            <h3 class="white">Find The Places</h3>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label class="white">Your Destination</label>
+                                        <div class="input-box">
+                                            <i class="flaticon-placeholder"></i>
+                                            <select class="niceSelect" name="address">
+                                                <option value="">Where are you going?</option>
+                                                @foreach ($hotels as $hotel)
+                                                <option value="{{$hotel->id}}">{{$hotel->address}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label class="white">Check In</label>
+                                        <div class="input-box">
+                                            <i class="flaticon-calendar"></i>
+                                            <input id="date-range0" type="text" name="checkin"
+                                                placeholder="yyyy-mm-dd" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label class="white">Check Out</label>
+                                        <div class="input-box">
+                                            <i class="flaticon-calendar"></i>
+                                            <input id="date-range1" type="text" name="checkout"
+                                                placeholder="yyyy-mm-dd" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label class="white">Adult</label>
+                                        <div class="input-box">
+                                            <i class="flaticon-add-user"></i>
+                                            <select class="niceSelect" name="adult">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-12">
+                                    <div class="form-group">
+                                        <label class="white">Children</label>
+                                        <div class="input-box">
+                                            <i class="flaticon-add-user"></i>
+                                            <select class="niceSelect" name="children">
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group mar-top-15">
+                                        <a class="biz-btn submitLink text-white">Search</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="sidebar-item">
+                        <div class="map-box mar-0">
+                            <i class="fa fa-map-marker"></i>
+                            <a href="#">Show on Map</a>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>Star Rating</h3>
+                        <div class="pretty p-default p-thick p-pulse p-curve">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label>
+                                    <div class="star-rating">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse p-curve">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label>
+                                    <div class="star-rating">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse p-curve">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label>
+                                    <div class="star-rating">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse p-curve">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label>
+                                    <div class="star-rating">
+                                        <span class="fa fa-star checked"></span>
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse p-curve">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label>
+                                    <div class="star-rating">
+                                        <span class="fa fa-star checked"></span>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>Price Range(VNĐ)</h3>
+                        <div class="range-slider">
+                            <div data-min="0" data-max="2000" data-unit="$" data-min-name="min_price"
+                                data-max-name="max_price"
+                                class="range-slider-ui ui-slider ui-slider-horizontal ui-widget ui-widget-content ui-corner-all"
+                                aria-disabled="false">
+                                <span class="min-value">0 VNĐ</span>
+                                <span class="max-value">2000 VNĐ</span>
+                                <div class="ui-slider-range ui-widget-header ui-corner-all full"
+                                    style="left: 0%; width: 100%"></div>
+                            </div>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    {{-- <div class="sidebar-item">
+                        <h3>Guest Rating</h3>
+                        <div class="guest-btn">
+                            <ul>
+                                <li><a href="#">3+</a></li>
+                                <li><a href="#">3.5+</a></li>
+                                <li><a href="#">4+</a></li>
+                                <li><a href="#">4.5+</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>Meals</h3>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Breakfast Included<span class="number">749</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" checked />
+                            <div class="state">
+                                <label> All-inclusive<span class="number">630</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Breakfast & dinner included<span class="number">58</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Kitchen Utilities<span class="number">29</span> </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>Facilities</h3>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Parking<span class="number">749</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" checked />
+                            <div class="state">
+                                <label> Restaurant<span class="number">630</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Pet Friendly<span class="number">58</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Room Service<span class="number">29</span> </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>Property Type</h3>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Hotels<span class="number">749</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" checked />
+                            <div class="state">
+                                <label> Apartments<span class="number">630</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Bed and Breakfasts<span class="number">58</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Resorts<span class="number">29</span> </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sidebar-item">
+                        <h3>City</h3>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Amsterdam<span class="number">749</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" checked />
+                            <div class="state">
+                                <label> Rotterdam<span class="number">630</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Valkenburg<span class="number">58</span> </label>
+                            </div>
+                        </div>
+                        <div class="pretty p-default p-thick p-pulse">
+                            <input type="checkbox" />
+                            <div class="state">
+                                <label> Eindhoven<span class="number">29</span> </label>
+                            </div>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
 @endsection

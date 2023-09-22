@@ -76,9 +76,8 @@
             @endforeach
         </tbody>
     </table>
-
 </form>
-
+@include('layouts.admin.custom_paginate',['items'=>$discounts]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

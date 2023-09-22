@@ -26,7 +26,7 @@
                 <th width="10%">Delete</th>
                 @endcan
                 <th>ID</th>
-                <th>Tên</th>
+                <th>Hình ảnh</th>
                 <th>Địa chỉ</th>
                 <th>Mô tả</th>
                 <th width="15%">Thời gian</th>
@@ -42,7 +42,7 @@
                 <th><button type="submit" class="btn btn-danger delete-all">Xóa tất cả</button></th>
                 @endcan
                 <th>ID</th>
-                <th>Tên</th>
+                <th>Hình ảnh</th>
                 <th>Địa chỉ</th>
                 <th>Mô tả</th>
                 <th>Thời gian</th>
@@ -59,7 +59,7 @@
                 <td><input type="checkbox" class="" name="destroy[{{$hotel->id}}]" value="{{$hotel->id}}" ></td>
                 @endcan
                 <td>{{$hotel->id}}</td>
-                <td>{{$hotel->name}}</td>
+                <td><img src="{{asset('storage/images/'.$hotel->image)}}" width="100" alt=""></td>
                 <td>{{$hotel->address}}</td>
                 <td>{{$hotel->description}}</td>
                 <td>{{$hotel->created_at}}</td>
@@ -70,8 +70,10 @@
             @endforeach
         </tbody>
     </table>
-
 </form>
+
+@include('layouts.admin.custom_paginate', ['items' => $hotels])
+
 
 @include('parts.backend.delete')
 @endsection

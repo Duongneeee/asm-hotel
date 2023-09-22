@@ -1,597 +1,821 @@
 @extends('layouts.frontend')
 @section('content')
-<div>
-    <div class="slider fullscreen">
-        <ul class="slides">
-            @foreach ($banners as $banner)
-            <li> <img src="{{asset('storage/images/'.$banner->image)}}" alt="">
-                <!-- random image -->
-                <div class="caption center-align slid-cap">
-                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    <h2>This is our big Tagline!</h2>
-                    <p>Mauris non placerat nulla. Sed vestibulum quam mauris, et malesuada tortor venenatis
-                        at.Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor
-                        ut
-                        imperdiet a, pellentesque id mi.</p> 
+@include('parts.frontend.banner')
+<section class="why-us pad-top-0">
+    <div class="container">
+        <div class="section-title">
+            <h2>Why Choose Us</h2>
+            <p>
+                Lorem Ipsum is simply dummy text the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the
+                1500s,
+            </p>
+        </div>
+        <div class="why-us-box">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="why-us-item text-center">
+                        <div class="why-us-icon">
+                            <i class="flaticon-price"></i>
+                        </div>
+                        <div class="why-us-content">
+                            <h3><a href="#">Competetive Pricing</a></h3>
+                            <p class="mar-0">With 500+ suppliers and the purchasing power of 300 million members</p>
+                        </div>
+                    </div>
                 </div>
-            </li>
+                <div class="col-lg-4">
+                    <div class="why-us-item text-center">
+                        <div class="why-us-icon">
+                            <i class="flaticon-quality"></i>
+                        </div>
+                        <div class="why-us-content">
+                            <h3><a href="#">Award Winning Service</a></h3>
+                            <p class="mar-0">Fabulous Travel worry free knowing that we're here if you need us, 24
+                                hours a day</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="why-us-item text-center">
+                        <div class="why-us-icon">
+                            <i class="flaticon-global"></i>
+                        </div>
+                        <div class="why-us-content">
+                            <h3><a href="#">Worldwide Coverage</a></h3>
+                            <p class="mar-0">1,200,000 hotels in more than 200 countries and regions & flights to
+                                over 5,000 citites.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="top-desti pad-0">
+    <div class="desti-inner">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <img src="{{asset('client/frontend/images/destination3.jpg')}}" alt="desti" />
+                <div class="desti-title">
+                    <div class="desti-title-inner">
+                        <h2 class="white bold">Top Most <br />Destination</h2>
+                        <p class="white mar-bottom-0">Lorem Ipsum is simply dummy text the printing and typesetting
+                            industry.</p>
+                    </div>
+                </div>
+            </div>
+
+            @foreach ($hotels as $hotel)
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('storage/images/'.$hotel->image)}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">{{$hotel->address}}</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="{{route('client.room',$hotel->id)}}" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
             @endforeach
             
-            {{-- <li> <img src="{{asset('frontend/images/slider/2.jpg')}}" alt="">
-                <!-- random image -->
-                <div class="caption center-align slid-cap">
-                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    <h2>This is our big Tagline!</h2>
-                    <p>Mauris non placerat nulla. Sed vestibulum quam mauris, et malesuada tortor venenatis
-                        at.Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor
-                        ut
-                        imperdiet a, pellentesque id mi.</p> <a href="#"
-                        class="waves-effect waves-light">Booking</a><a href="#">Booking</a>
-                </div>
-            </li>
-            <li> <img src="{{asset('frontend/images/slider/3.jpg')}}" alt="">
-                <!-- random image -->
-                <div class="caption center-align slid-cap">
-                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    <h2>This is our big Tagline!</h2>
-                    <p>Mauris non placerat nulla. Sed vestibulum quam mauris, et malesuada tortor venenatis
-                        at.Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor
-                        ut
-                        imperdiet a, pellentesque id mi.</p> <a href="#"
-                        class="waves-effect waves-light">Booking</a><a href="#">Booking</a>
-                </div>
-            </li>
-            <li> <img src="{{asset('frontend/images/slider/4.jpg')}}" alt="">
-                <!-- random image -->
-                <div class="caption center-align slid-cap">
-                    <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    <h2>This is our big Tagline!</h2>
-                    <p>Mauris non placerat nulla. Sed vestibulum quam mauris, et malesuada tortor venenatis
-                        at.Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor
-                        ut
-                        imperdiet a, pellentesque id mi.</p> <a href="#"
-                        class="waves-effect waves-light">Booking</a><a href="#">Booking</a>
-                </div>
-            </li> --}}
-        </ul>
-    </div>
-</div>
-<div class="hom1 hom-com pad-bot-40">
-    <div class="container">
-        <div class="row">
-            <div class="hom1-title">
-                <h2>Our Hotel Rooms</h2>
-                <div class="head-title">
-                    <div class="hl-1"></div>
-                    <div class="hl-2"></div>
-                    <div class="hl-3"></div>
-                </div>
-                <p>Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor ut
-                    imperdiet
-                    a, pellentesque id mi.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="to-ho-hotel">
-                <!-- HOTEL GRID -->
-                @foreach ($roomtypes as $roomtype)
-                <div class="col-md-4">
-                    <div class="to-ho-hotel-con">
-                        <div class="to-ho-hotel-con-1">
-                            <div class="hom-hot-av-tic"> Available Tickets: 42 </div> <img
-                                src="{{asset('storage/images/'.$roomtype->image)}}" alt="">
+            {{-- <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination4.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
                         </div>
-                        <div class="to-ho-hotel-con-23">
-                            <div class="to-ho-hotel-con-2"> <a href="{{route('client.all-room',$roomtype->id)}}">
-                                    <h4>{{$roomtype->name}}</h4>
-                                </a> </div>
-                            <div class="to-ho-hotel-con-3">
-                                <ul>
-                                    <li>City: illunois,united states
-                                        <div class="dir-rat-star ho-hot-rat-star"> Rating: <i class="fa fa-star"
-                                                aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i
-                                                class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                                                aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                    </li>
-                                    <li><span class="ho-hot-pri-dis">$720</span><span class="ho-hot-pri">${{$roomtype->price}}</span>
-                                    </li>
-                                </ul>
+                        <h3 class="white mar-bottom-0">Armania</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination5.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">Manchester</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination7.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">kathmandu</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination8.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">Tokyo</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination9.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">Norwich</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="desti-image">
+                    <img src="{{asset('client/frontend/images/destination10.jpg')}}" alt="desti" />
+                    <div class="desti-content">
+                        <div class="rating mar-bottom-5">
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                            <span class="fa fa-star checked"></span>
+                        </div>
+                        <h3 class="white mar-bottom-0">Norwich</h3>
+                    </div>
+                    <div class="desti-overlay">
+                        <a href="#" class="biz-btn-white">Book Now</a>
+                    </div>
+                </div>
+            </div> --}}
+        </div>
+    </div>
+</section>
+
+
+<section class="trending">
+    <div class="container">
+        <div class="section-title">
+            <h2>Perfect Holiday Plan</h2>
+            <p>
+                Lorem Ipsum is simply dummy text the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the
+                1500s,
+            </p>
+        </div>
+        <div class="trend-box">
+            <div class="row mix tour">
+                <div class="col-lg-4 col-md-6 mar-bottom-30">
+                    <div class="trend-item">
+                        <div class="ribbon ribbon-top-left"><span>25% OFF</span></div>
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending1.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p class="price">From <span>$350.00</span></p>
                             </div>
                         </div>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> United Kingdom</p>
+                            <h4><a href="#">Stonehenge, Windsor Castle, and Bath from London</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                            </div>
+                            <span class="mar-left-5">38 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
+                        </div>
                     </div>
                 </div>
-                @endforeach
-                
-                <!-- HOTEL GRID -->
-                {{-- <div class="col-md-4">
-                    <div class="to-ho-hotel-con">
-                        <div class="to-ho-hotel-con-1">
-                            <div class="hom-hot-av-tic"> Available Tickets: 520 </div> <img
-                                src="{{asset('frontend/images/room/1.jpg')}}" alt="">
-                        </div>
-                        <div class="to-ho-hotel-con-23">
-                            <div class="to-ho-hotel-con-2"> <a href="all-rooms.html">
-                                    <h4>Mini-Suite</h4>
-                                </a> </div>
-                            <div class="to-ho-hotel-con-3">
-                                <ul>
-                                    <li>City: illunois,united states
-                                        <div class="dir-rat-star ho-hot-rat-star"> Rating: <i class="fa fa-star"
-                                                aria-hidden="true"></i><i class="fa fa-star" aria-hidden="true"></i><i
-                                                class="fa fa-star" aria-hidden="true"></i><i class="fa fa-star"
-                                                aria-hidden="true"></i><i class="fa fa-star-o" aria-hidden="true"></i>
-                                        </div>
-                                    </li>
-                                    <li><span class="ho-hot-pri-dis">$840</span><span class="ho-hot-pri">$540</span>
-                                    </li>
-                                </ul>
+                <div class="col-lg-4 col-md-6 mar-bottom-30">
+                    <div class="trend-item">
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending2.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p>Multi-day Tours</p>
+                                <p class="price">From <span>$899.00</span></p>
                             </div>
                         </div>
-                    </div>
-                </div>--}}
-            </div>
-        </div>
-    </div>
-</div>
-<!--END HOTEL ROOMS-->
-<!--TOP SECTION-->
-<div class="offer">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="offer-l"> <span class="ol-1"></span> <span class="ol-2"><i class="fa fa-star"></i><i
-                            class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-                            class="fa fa-star"></i></span> <span class="ol-4">Standardized Budget Rooms</span>
-                    <span class="ol-3"></span> <span class="ol-5">$99/-</span>
-                    <ul>
-                        <li>
-                            <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img
-                                    src="{{asset('frontend/images/icon/dis1.png')}}" alt="">
-                            </a><span>Free WiFi</span>
-                        </li>
-                        <li>
-                            <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img
-                                    src="{{asset('frontend/images/icon/h2.png')}}" alt="">
-                            </a><span>Breakfast</span>
-                        </li>
-                        <li>
-                            <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img
-                                    src="{{asset('frontend/images/icon/dis3.png')}}" alt="">
-                            </a><span>Pool</span>
-                        </li>
-                        <li>
-                            <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img
-                                    src="{{asset('frontend/images/icon/dis4.png')}}" alt="">
-                            </a><span>Television</span>
-                        </li>
-                        <li>
-                            <a href="#!" class="waves-effect waves-light btn-large offer-btn"><img
-                                    src="{{asset('frontend/images/icon/dis5.png')}}" alt="">
-                            </a><span>GYM</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="offer-r">
-                    <div class="or-1"> <span class="or-11">go</span> <span class="or-12">Stays</span> </div>
-                    <div class="or-2"> <span class="or-21">Get</span> <span class="or-22">70%</span> <span
-                            class="or-23">Off</span> <span class="or-24">use code: RG5481WERQ</span> <span
-                            class="or-25"></span> </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="blog hom-com pad-bot-0">
-    <div class="container">
-        <div class="row">
-            <div class="hom1-title">
-                <h2>Banquet Spaces & Meeting Rooms</h2>
-                <div class="head-title">
-                    <div class="hl-1"></div>
-                    <div class="hl-2"></div>
-                    <div class="hl-3"></div>
-                </div>
-                <p>Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor ut
-                    imperdiet
-                    a, pellentesque id mi.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div>
-                <div class="col-md-3 n2-event">
-                    <!--event IMAGE-->
-                    <div class="n21-event hovereffect"> <img src="{{asset('frontend/images/event/1.jpg')}}" alt="">
-                        <div class="overlay"> <a href="booking.html"><span class="ev-book">Book
-                                    Now</span></a>
-                        </div>
-                    </div>
-                    <!--event DETAILS-->
-                    <div class="n22-event"> <a href="#!">
-                            <h4>Wedding Halls</h4>
-                        </a> <span class="event-date">Capacity: 500,</span> <span class="event-by"> Price:
-                            $900</span>
-                        <p>undergraduate applicants are admitted on a need-blind basis, and the university
-                            offers undergraduate applicants</p>
-                        <!--event SHARE-->
-                        <div class="event-share">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> Germany</p>
+                            <h4><a href="#">Bosphorus and Black Sea Cruise from Istanbul</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star-half checked"></span>
+                                <span class="fa fa-star-half checked"></span>
+                            </div>
+                            <span class="mar-left-5">48 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 n2-event">
-                    <!--event IMAGE-->
-                    <div class="n21-event hovereffect"> <img src="{{asset('frontend/images/event/2.jpg')}}" alt="">
-                        <div class="overlay"> <a href="booking.html"><span class="ev-book">Book
-                                    Now</span></a>
+                <div class="col-lg-4 col-md-6 mar-bottom-30">
+                    <div class="trend-item">
+                        <div class="ribbon ribbon-top-left"><span>Featured</span></div>
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending3.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p>Attraction Tickets</p>
+                                <p class="price">From <span>$350.00</span></p>
+                            </div>
                         </div>
-                    </div>
-                    <!--event DETAILS-->
-                    <div class="n22-event"> <a href="#!">
-                            <h4>Business Meetings</h4>
-                        </a> <span class="event-date">Capacity: 500,</span> <span class="event-by"> Price:
-                            $700</span>
-                        <p>undergraduate applicants are admitted on a need-blind basis, and the university
-                            offers undergraduate applicants</p>
-                        <!--event SHARE-->
-                        <div class="event-share">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 n2-event">
-                    <!--event IMAGE-->
-                    <div class="n21-event hovereffect"> <img src="{{asset('frontend/images/event/3.jpg')}}" alt="">
-                        <div class="overlay"> <a href="booking.html"><span class="ev-book">Book
-                                    Now</span></a>
-                        </div>
-                    </div>
-                    <!--event DETAILS-->
-                    <div class="n22-event"> <a href="#!">
-                            <h4>Social Event</h4>
-                        </a> <span class="event-date">Capacity: 420,</span> <span class="event-by"> Price:
-                            $750</span>
-                        <p>undergraduate applicants are admitted on a need-blind basis, and the university
-                            offers undergraduate applicants</p>
-                        <!--event SHARE-->
-                        <div class="event-share">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> Denmark</p>
+                            <h4><a href="#">NYC One World Observatory Skip-the-Line Ticket</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                            </div>
+                            <span class="mar-left-5">32 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-3 n2-event">
-                    <!--event IMAGE-->
-                    <div class="n21-event hovereffect"> <img src="{{asset('frontend/images/event/4.jpg')}}" alt="">
-                        <div class="overlay"> <a href="booking.html"><span class="ev-book">Book
-                                    Now</span></a>
+                <div class="col-lg-4 col-md-6">
+                    <div class="trend-item">
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending4.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p class="price">From <span>$350.00</span></p>
+                            </div>
+                        </div>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> Japan</p>
+                            <h4><a href="#">Stonehenge, Windsor Castle, and Bath from London</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star-half checked"></span>
+                            </div>
+                            <span class="mar-left-5">21 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
                         </div>
                     </div>
-                    <!--event DETAILS-->
-                    <div class="n22-event"> <a href="#!">
-                            <h4>Birthdays and Debut</h4>
-                        </a> <span class="event-date">Capacity: 240,</span> <span class="event-by"> Price:
-                            $500</span>
-                        <p>undergraduate applicants are admitted on a need-blind basis, and the university
-                            offers undergraduate applicants</p>
-                        <!--event SHARE-->
-                        <div class="event-share">
-                            <ul>
-                                <li><a href="#"><i class="fa fa-facebook"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-google-plus"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a>
-                                </li>
-                                <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                                </li>
-                            </ul>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="trend-item">
+                        <div class="ribbon ribbon-top-left"><span>25% OFF</span></div>
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending5.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p>Multi-day Tours</p>
+                                <p class="price">From <span>$899.00</span></p>
+                            </div>
+                        </div>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> Italy</p>
+                            <h4><a href="#">Bosphorus and Black Sea Cruise from Istanbul</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star-half checked"></span>
+                                <span class="fa fa-star-half checked"></span>
+                            </div>
+                            <span class="mar-left-5">48 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="trend-item">
+                        <div class="trend-image">
+                            <img src="{{asset('client/frontend/images/trending6.jpg')}}" alt="image" />
+                            <div class="trend-tags">
+                                <a href="#"><i class="flaticon-like"></i></a>
+                            </div>
+                            <div class="trend-price">
+                                <p>Attraction Tickets</p>
+                                <p class="price">From <span>$350.00</span></p>
+                            </div>
+                        </div>
+                        <div class="trend-content">
+                            <p><i class="flaticon-location-pin"></i> Turkey</p>
+                            <h4><a href="#">NYC One World Observatory Skip-the-Line Ticket</a></h4>
+                            <div class="rating mar-bottom-10">
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                                <span class="fa fa-star checked"></span>
+                            </div>
+                            <span class="mar-left-5">18 Reviews</span>
+                            <p class="mar-0"><i class="fa fa-clock-o" aria-hidden="true"></i> 3 days & 2 night</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="blog hom-com pad-bot-0">
+</section>
+
+
+<section class="call-to-action">
     <div class="container">
-        <div class="row">
-            <div class="hom1-title">
-                <h2>Photo Gallery</h2>
-                <div class="head-title">
-                    <div class="hl-1"></div>
-                    <div class="hl-2"></div>
-                    <div class="hl-3"></div>
+        <div class="action-content text-center mar-bottom-20">
+            <h2 class="white mar-bottom-0">Find next place to visit</h2>
+            <h3 class="white package-name">EXPLORE THE WORLD</h3>
+        </div>
+        <div class="video-button text-center">
+            <div class="call-button1">
+                <button type="button" class="play-btn js-video-button" data-video-id="152879427"
+                    data-channel="vimeo">
+                    <i class="fa fa-play"></i>
+                </button>
+            </div>
+            <div class="video-figure"></div>
+        </div>
+    </div>
+</section>
+
+
+<section class="cta-one">
+    <div class="container">
+        <div class="cta-one_block display-flex space-between">
+            <h2 class="white mar-bottom-0">Work with our amazing tour guides</h2>
+            <a href="contact.html" class="biz-btn-white">Join our team</a>
+        </div>
+    </div>
+</section>
+
+
+<section class="top-deals">
+    <div class="container">
+        <div class="section-title">
+            <h2>Today's Top Deals</h2>
+            <p>
+                Lorem Ipsum is simply dummy text the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the
+                1500s,
+            </p>
+        </div>
+        <div class="row top-deal-slider">
+            <div class="col-md-4 slider-item">
+                <div class="slider-image">
+                    <img src="{{asset('client/frontend/images/trending7.jpg')}}" alt="image" />
                 </div>
-                <p>Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor ut
-                    imperdiet
-                    a, pellentesque id mi.</p>
+                <div class="slider-content">
+                    <h6 class="mar-bottom-10"><i class="fa fa-map-marker-alt"></i> United Kingdom</h6>
+                    <h4><a href="#">Earning Asiana Club Miles</a></h4>
+                    <p>With upto 30% Off, experience Europe your way!</p>
+                    <div class="deal-price">
+                        <p class="price">From <span>$250.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 slider-item">
+                <div class="slider-image">
+                    <img src="{{asset('client/frontend/images/trending8.jpg')}}" alt="image" />
+                </div>
+                <div class="slider-content">
+                    <h6 class="mar-bottom-10"><i class="fa fa-map-marker-alt"></i> Thailand</h6>
+                    <h4><a href="#">Save big on hotels!</a></h4>
+                    <p>With upto 30% Off, experience Europe your way!</p>
+                    <div class="deal-price">
+                        <p class="price">From <span>$250.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 slider-item">
+                <div class="slider-image">
+                    <img src="{{asset('client/frontend/images/trending9.jpg')}}" alt="image" />
+                </div>
+                <div class="slider-content">
+                    <h6 class="mar-bottom-10"><i class="fa fa-map-marker-alt"></i> South Korea</h6>
+                    <h4><a href="#">Experience Europe Your Way</a></h4>
+                    <p>With upto 30% Off, experience Europe your way!</p>
+                    <div class="deal-price">
+                        <p class="price">From <span>$250.00</span></p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 slider-item">
+                <div class="slider-image">
+                    <img src="{{asset('client/frontend/images/trending10.jpg')}}" alt="image" />
+                </div>
+                <div class="slider-content">
+                    <h6 class="mar-bottom-10"><i class="fa fa-map-marker-alt"></i> Germany</h6>
+                    <h4><a href="#">Earning Asiana Club Miles</a></h4>
+                    <p>With upto 30% Off, experience Europe your way!</p>
+                    <div class="deal-price">
+                        <p class="price">From <span>$250.00</span></p>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="inn-services head-typo typo-com mar-bot-0">
-                    <ul id="filters" class="clearfix">
-                        <li><span class="filter active" data-filter=".app, .card, .icon, .logo, .web">All</span>
-                        </li>
-                        <li><span class="filter" data-filter=".app">Hotels</span>
-                        </li>
-                        <li><span class="filter" data-filter=".card">Aminities</span>
-                        </li>
-                        <li><span class="filter" data-filter=".icon">Rooms</span>
-                        </li>
-                        <li><span class="filter" data-filter=".logo">Food Menu</span>
-                        </li>
-                        <li><span class="filter" data-filter=".web">Events</span>
-                        </li>
-                    </ul>
-                    <div id="portfoliolist">
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/5.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
+    </div>
+</section>
+
+
+<section class="discount-action pad-top-0">
+    <div class="container">
+        <div class="call-banner">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="call-banner-inner text-center">
+                        <h2>SUMMER SPECIAL <br />UPTO 25% OFF</h2>
+                        <h3 class="mar-bottom-20">SPEND THE BEST VACTION WITH US <br />The nights of Thailand</h3>
+                        <a href="#" class="biz-btn biz-btn1">View Details</a>
+                    </div>
+                </div>
+                <div class="col-lg-6"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="travelcounter">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="white">call our agents to book</h2>
+            <p class="white">Travel award winning and top rated tour operator</p>
+        </div>
+        <div class="row service-gg">
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-item">
+                    <div class="counter-icon">
+                        <i class="fas fa-hiking" aria-hidden="true"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3 class="boats">80</h3>
+                        <p class="mar-0">Pro Tour Guides</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-item">
+                    <div class="counter-icon">
+                        <i class="fa fa-map-marker-alt" aria-hidden="true"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3 class="location">19</h3>
+                        <p class="mar-0">Tours are Completed</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-item">
+                    <div class="counter-icon">
+                        <i class="fa fa-walking" aria-hidden="true"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3 class="showroom">10</h3>
+                        <p class="mar-0">Traveling Experience</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 col-sm-6">
+                <div class="counter-item">
+                    <div class="counter-icon">
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </div>
+                    <div class="counter-content">
+                        <h3 class="lisence">100</h3>
+                        <p class="mar-0">Happy Customers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="top-review bg-grey">
+    <div class="container">
+        <div class="section-title">
+            <h2>Top Tour Reviews</h2>
+            <p>
+                Lorem Ipsum is simply dummy text the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the
+                1500s,
+            </p>
+        </div>
+        <div class="review-wrap">
+            <div class="review-slider">
+                <div class="col-md-4 reviews-list align-center">
+                    <div class="list-rv-detail">
+                        <p class="mar-0">
+                            <i class="fa fa-quote-left mar-right-10"></i> Lorem Ipsum is simply dummy text of the
+                            printing and typesetting industry. Lorem Ipsum has been
+                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged
+                        </p>
+                    </div>
+                    <div class="rev-author mar-top-40">
+                        <div class="rev-image"><img src="{{asset('client/frontend/images/inbox3.jpg')}}"
+                                alt="image" /></div>
+                        <div class="rev-content mar-left-20">
+                            <h4 class="mar-bottom-5">John Doe</h4>
+                            <p class="mar-bottom-5">CEO/Mario Brand</p>
+                            <ul class="list-inline">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
                         </div>
-                        <div class="portfolio app" data-cat="app">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/app/1.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">APP</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reviews-list align-center">
+                    <div class="list-rv-detail">
+                        <p class="mar-0">
+                            <i class="fa fa-quote-left mar-right-10"></i> Lorem Ipsum is simply dummy text of the
+                            printing and typesetting industry. Lorem Ipsum has been
+                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged
+                        </p>
+                    </div>
+                    <div class="rev-author mar-top-40">
+                        <div class="rev-image"><img src="{{asset('client/frontend/images/inbox1.jpg')}}"
+                                alt="image" /></div>
+                        <div class="rev-content mar-left-20">
+                            <h4 class="mar-bottom-5">Drank Bastis Doe</h4>
+                            <p class="mar-bottom-5">COO/Nell & wells Co.</p>
+                            <ul class="list-inline">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
                         </div>
-                        <div class="portfolio web" data-cat="web">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/web/4.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Web design</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reviews-list align-center">
+                    <div class="list-rv-detail">
+                        <p class="mar-0">
+                            <i class="fa fa-quote-left mar-right-10"></i> Lorem Ipsum is simply dummy text of the
+                            printing and typesetting industry. Lorem Ipsum has been
+                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged
+                        </p>
+                    </div>
+                    <div class="rev-author mar-top-40">
+                        <div class="rev-image"><img src="{{asset('client/frontend/images/inbox2.jpg')}}"
+                                alt="image" /></div>
+                        <div class="rev-content mar-left-20">
+                            <h4 class="mar-bottom-5">John Doe</h4>
+                            <p class="mar-bottom-5">CEO/Mario Brand</p>
+                            <ul class="list-inline">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
                         </div>
-                        <div class="portfolio card" data-cat="card">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/card/1.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Business card</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reviews-list align-center">
+                    <div class="list-rv-detail">
+                        <p class="mar-0">
+                            <i class="fa fa-quote-left mar-right-10"></i> Lorem Ipsum is simply dummy text of the
+                            printing and typesetting industry. Lorem Ipsum has been
+                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged
+                        </p>
+                    </div>
+                    <div class="rev-author mar-top-40">
+                        <div class="rev-image"><img src="{{asset('client/frontend/images/inbox3.jpg')}}"
+                                alt="image" /></div>
+                        <div class="rev-content mar-left-20">
+                            <h4 class="mar-bottom-5">Wayne Nell</h4>
+                            <p class="mar-bottom-5">Director/Franchisis Com</p>
+                            <ul class="list-inline">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
                         </div>
-                        <div class="portfolio app" data-cat="app">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/app/3.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">APP</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
+                    </div>
+                </div>
+                <div class="col-md-4 reviews-list align-center">
+                    <div class="list-rv-detail">
+                        <p class="mar-0">
+                            <i class="fa fa-quote-left mar-right-10"></i> Lorem Ipsum is simply dummy text of the
+                            printing and typesetting industry. Lorem Ipsum has been
+                            the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type
+                            specimen book. It has survived not only five centuries, but also the leap into
+                            electronic typesetting, remaining essentially unchanged
+                        </p>
+                    </div>
+                    <div class="rev-author mar-top-40">
+                        <div class="rev-image"><img src="{{asset('client/frontend/images/inbox4.jpg')}}"
+                                alt="image" /></div>
+                        <div class="rev-content mar-left-20">
+                            <h4 class="mar-bottom-5">Yolksel Doke</h4>
+                            <p class="mar-bottom-5">CEO/Rupens Trator</p>
+                            <ul class="list-inline">
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                                <li><i class="fa fa-star"></i></li>
+                            </ul>
                         </div>
-                        <div class="portfolio card" data-cat="card">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/card/4.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Business card</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio card" data-cat="card">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/card/5.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Business card</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/1.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio app" data-cat="app">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/app/2.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">APP</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio card" data-cat="card">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/card/2.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Business card</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/6.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/7.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio icon" data-cat="icon">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/icon/4.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Icon</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio web" data-cat="web">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/web/3.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Web design</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio icon" data-cat="icon">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/icon/1.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Icon</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio web" data-cat="web">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/web/2.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Web design</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio icon" data-cat="icon">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/icon/2.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Photo Caption</a> <span
-                                            class="text-category">Icon</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio icon" data-cat="icon">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/icon/5.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">3D Map</a> <span
-                                            class="text-category">Icon</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio web" data-cat="web">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/web/1.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Note</a> <span
-                                            class="text-category">Web design</span> </div>
-                                    <div class="label-bg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/3.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Native Designers</a>
-                                        <span class="text-category">Logo</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="blog">
+    <div class="container">
+        <div class="section-title">
+            <h2>Recent Activities</h2>
+            <p>
+                Lorem Ipsum is simply dummy text the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the
+                1500s,
+            </p>
+        </div>
+        <div class="blog-home-main">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="row">
+                        <div class="col-sm-12 mar-bottom-25">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-15"><i class="flaticon flaticon-calendar"></i>
+                                            Mar 15, 2017</div>
+                                        <h3><a href="blog-single.html">Raising say express had chiefly detract</a>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam finibus,
+                                            velit nec luctus dictum Nam finibus.</p>
+                                        <a href="blog-single.html" class="biz-btn biz-btn1">Read More</a>
                                     </div>
-                                    <div class="label-bg"></div>
                                 </div>
                             </div>
                         </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/4.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Bookworm</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
+                        <div class="col-sm-12">
+                            <div class="grid">
+                                <div class="grid-item grid-item1">
+                                    <div class="grid-image">
+                                        <img src="{{asset('client/frontend/images/trending2.jpg')}}" alt="blog" />
+                                    </div>
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-10 white"><i
+                                                class="flaticon flaticon-calendar"></i> Mar 15, 2017</div>
+                                        <h3 class="mar-0"><a href="blog-single.html" class="white">Raising say
+                                                express had chiefly detract</a></h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="portfolio icon" data-cat="icon">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/icon/3.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Sandwich</a> <span
-                                            class="text-category">Icon</span> </div>
-                                    <div class="label-bg"></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="row">
+                        <div class="col-sm-12 mar-bottom-25">
+                            <div class="grid">
+                                <div class="grid-item grid-item1">
+                                    <div class="grid-image">
+                                        <img src="{{asset('client/frontend/images/trending6.jpg')}}" alt="blog" />
+                                    </div>
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-10 white"><i
+                                                class="flaticon flaticon-calendar"></i> Mar 15, 2017</div>
+                                        <h3 class="mar-0"><a href="blog-single.html" class="white">Raising say
+                                                express had chiefly detract</a></h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="portfolio card" data-cat="card">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/card/3.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Reality</a> <span
-                                            class="text-category">Business card</span> </div>
-                                    <div class="label-bg"></div>
+                        <div class="col-sm-12">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-15"><i class="flaticon flaticon-calendar"></i>
+                                            Mar 15, 2017</div>
+                                        <h3><a href="blog-single.html">Raising say express had chiefly detract</a>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam finibus,
+                                            velit nec luctus dictum Nam finibus.</p>
+                                        <a href="blog-single.html" class="biz-btn biz-btn1">Read More</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="portfolio logo" data-cat="logo">
-                            <div class="portfolio-wrapper"> <img src="{{asset('frontend/img/portfolios/logo/2.jpg')}}"
-                                    alt="" />
-                                <div class="label">
-                                    <div class="label-text"> <a class="text-title">Speciallisterne</a> <span
-                                            class="text-category">Logo</span> </div>
-                                    <div class="label-bg"></div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="row">
+                        <div class="col-sm-12 mar-bottom-25">
+                            <div class="grid">
+                                <div class="grid-item">
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-15"><i class="flaticon flaticon-calendar"></i>
+                                            Mar 15, 2017</div>
+                                        <h3><a href="blog-single.html">Raising say express had chiefly detract</a>
+                                        </h3>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam finibus,
+                                            velit nec luctus dictum Nam finibus.</p>
+                                        <a href="blog-single.html" class="biz-btn biz-btn1">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="grid">
+                                <div class="grid-item grid-item1">
+                                    <div class="grid-image">
+                                        <img src="{{asset('client/frontend/images/trending7.jpg')}}" alt="blog" />
+                                    </div>
+                                    <div class="gridblog-content">
+                                        <div class="date mar-bottom-10 white"><i
+                                                class="flaticon flaticon-calendar"></i> Mar 15, 2017</div>
+                                        <h3 class="mar-0"><a href="blog-single.html" class="white">Raising say
+                                                express had chiefly detract</a></h3>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -600,112 +824,6 @@
             </div>
         </div>
     </div>
-</div>
-<div class="blog hom-com">
-    <div class="container">
-        <div class="row">
-            <div class="hom1-title">
-                <h2>News & Event</h2>
-                <div class="head-title">
-                    <div class="hl-1"></div>
-                    <div class="hl-2"></div>
-                    <div class="hl-3"></div>
-                </div>
-                <p>Aenean euismod sem porta est consectetur posuere. Praesent nisi velit, porttitor ut
-                    imperdiet
-                    a, pellentesque id mi.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="bot-gal h-gal">
-                    <h4>Photo Gallery</h4>
-                    <ul>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/8.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/9.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/10.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/11.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/1.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/2.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/3.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/4.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/5.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/6.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/7.jpg')}}" alt="">
-                        </li>
-                        <li><img class="materialboxed" data-caption="Hotel Captions"
-                                src="{{asset('frontend/images/ami/8.jpg')}}" alt="">
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bot-gal h-vid">
-                    <h4>Video Gallery</h4>
-                    <iframe src="https://www.youtube.com/embed/mG4G8crGQ34?autoplay=0&amp;showinfo=0&amp;controls=0"
-                        allowfullscreen></iframe>
-                    <h5>Maecenas sollicitudin lacinia</h5>
-                    <p>Maecenas finibus neque a tellus auctor mattis. Aliquam tempor varius ornare. Maecenas
-                        dignissim leo leo, nec posuere purus finibus vitae.</p>
-                    <p>Quisque vitae neque at tellus malesuada convallis. Phasellus in lectus vitae ex
-                        euismod
-                        interdum non a lorem. Nulla bibendum. Curabitur mi odio, tempus quis risus cursus.
-                    </p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="bot-gal h-blog">
-                    <h4>News & Event</h4>
-                    <ul>
-                        <li>
-                            <a href="#!"> <img src="{{asset('frontend/images/users/2.png')}}" alt="">
-                                <h5>Joseph, write a review</h5> <span>3 Dec, 2017</span>
-                                <p>Curabitur mi odio, tempus quis risus cursus, iaculis tempor augue.</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#!"> <img src="{{asset('frontend/images/users/3.png')}}" alt="">
-                                <h5>Joseph, write a review</h5> <span>3 Dec, 2017</span>
-                                <p>Curabitur mi odio, tempus quis risus cursus, iaculis tempor augue.</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#!"> <img src="{{asset('frontend/images/users/4.png')}}" alt="">
-                                <h5>Joseph, write a review</h5> <span>3 Dec, 2017</span>
-                                <p>Curabitur mi odio, tempus quis risus cursus, iaculis tempor augue.</p>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#!"> <img src="{{asset('frontend/images/users/5.png')}}" alt="">
-                                <h5>Joseph, write a review</h5> <span>3 Dec, 2017</span>
-                                <p>Curabitur mi odio, tempus quis risus cursus, iaculis tempor augue.</p>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+</section>
+
 @endsection

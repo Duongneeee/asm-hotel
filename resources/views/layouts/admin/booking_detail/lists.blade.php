@@ -48,10 +48,8 @@
             @endforeach
         </tbody>
     </table>
-
-    
 </form>
-
+@include('layouts.admin.custom_paginate',['items'=>$booking_details]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookingRequest;
+use Carbon\Carbon;
 use App\Models\Room;
 use App\Models\User;
+use App\Models\Hotel;
+use App\Models\Banner;
 use App\Models\Booking;
+use App\Models\Comment;
+use App\Models\Payment;
 use App\Models\Discount;
 use App\Models\Roomtype;
 use Illuminate\Http\Request;
@@ -14,8 +18,10 @@ use App\Models\Booking_detail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\BookingRequest;
+use Illuminate\Contracts\Session\Session;
 use App\Http\Requests\ClientBookingReuqest;
-use App\Models\Banner;
+use App\Http\Requests\ClientDiscountRequest;
 
 class ClientController extends Controller
 {
@@ -24,43 +30,91 @@ class ClientController extends Controller
      */
     public function index()
     {
+        session()->forget('discount');
         $roomtypes = Roomtype::orderBy('created_at', 'desc')->get();
+        $hotels = Hotel::orderBy('created_at', 'desc')->limit(7)->get();
+        $selectHotel = Hotel::get();
         $banners = Banner::all();
-        return view('layouts.client.index', compact('roomtypes', 'banners'));
+        return view('layouts.client.index', compact('roomtypes', 'banners', 'hotels', 'selectHotel'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
+   
+    // show phòng theo id hotel
     public function roomList($id)
     {
-        $rooms = Room::where('roomtype_id', $id)->orderBy('created_at', 'desc')->get();
-        $roomtype = Roomtype::find($id);
-        $banners = Banner::all();
-        return view('layouts.client.roomlists', compact('rooms', 'roomtype', 'banners'));
+        $rooms = Room::where('hotel_id', $id)->orderBy('created_at', 'desc')->paginate(4);
+        $hotel = Hotel::find($id);
+        $hotels = Hotel::get();
+        return view('layouts.client.roomlists', compact('hotel', 'rooms', 'hotels'));
     }
 
+    //chi tiết của 1 phòng
     public function roomDetail($id)
     {
         $room = Room::find($id);
-        return view('layouts.client.roomdetail', compact('room'));
+        $comments = Comment::all();
+        return view('layouts.client.roomdetail', compact('room','comments'));
     }
 
+    // tìm kiếm phòng
+    public function roomSearch(Request $request)
+    {
+        if ($request->adult <= 2) {
+            if ($request->children <= 3) {
+                $roomtypeId = Roomtype::where('name', 'single room')->first();
+            } else {
+                $roomtypeId = Roomtype::where('name', 'double room')->first();
+            }
+        } else {
+            $roomtypeId = Roomtype::where('name', 'double room')->first();
+        }
+
+        $roomId = Booking_detail::join('bookings', 'booking_details.booking_id', '=', 'bookings.id')
+            ->whereBetween('checkin', [$request->checkin, $request->checkout])
+            ->orWhereBetween('checkout', [$request->checkin, $request->checkout])->pluck('room_id');
+
+        // $roomId = Booking_detail::whereIn('booking_id',$bookingId)->pluck('room_id');
+
+
+        $rooms = Room::whereNotIn('id', $roomId)->where('hotel_id', $request->address)->where('roomtype_id', $roomtypeId->id)->orderBy('created_at', 'desc')->get();
+        $hotel = Hotel::find($request->address);
+        $hotels = Hotel::get();
+        return view('layouts.client.roomlists', compact('hotel', 'rooms', 'hotels'));
+    }
+
+    
+    //Xử lí khi ap mã giảm giá
+    public function discount(ClientDiscountRequest $request)
+    {
+
+        $discount = Discount::where('code', $request->code_discount)->first();
+        if ($discount) {
+            if ($discount->value == 0) {
+                $amount = $request->price - $discount->price;
+                $value = 'VNĐ';
+            } else {
+                $amount = $request->price - ($request->price * ($discount->price / 100));
+                $value = '%';
+            }
+
+            if ($discount) {
+                session()->flash('discount', [
+                    'discountId' => $discount->id,
+                    'discountPrice' => $discount->price,
+                    'amount' => $amount,
+                    'value' => $value
+                ]);
+            }
+        }
+
+        return back();
+    }
+
+    // Booking phòng
     public function roomBooking($id)
     {
-        $datetimes = Booking::select('checkin', 'checkout')->get();
-
-        $bookedDates = $datetimes->map(function ($datetime) {
-            return [
-                'checkin' => date('Y-m-d H:i', strtotime($datetime->checkin)),
-                'checkout' => date('Y-m-d H:i', strtotime($datetime->checkout)),
-            ];
-        });
-
-        if (Auth::user()) {
-            $user = User::find(Auth::user()->id);
-        }
-        return view('layouts.client.booking', compact('id', 'bookedDates'));
+        $room = Room::find($id);
+        return view('layouts.client.booking', compact('room'));
     }
 
     public function postRoomBooking(ClientBookingReuqest $request, $id)
@@ -73,104 +127,118 @@ class ClientController extends Controller
         if (Auth::user()) {
             $booking->user_id = Auth::user()->id;
         }
-
-        if ($request->code_discount) {
-            $discount = Discount::where('code', $request->code_discount)->first();
-            if ($discount) {
-                $booking->discount_id = $discount->id;
-            }
-        }
+        $booking->address = $request->address;
         $booking->checkin = $request->checkin;
         $booking->checkout = $request->checkout;
+        $booking->amount = $request->amount;
+        if ($request->discount_id != null) {
+            $booking->discount_id = $request->discount_id;
+        }
         $booking->save();
-
 
         $booking->rooms()->attach($id);
 
         return $this->payment($request, $paymentMethod, $booking->id);
     }
 
+    // xử lý thanh toán
     public function payment($request, $paymentMethod, $id)
     {
-        $booking_detail = Booking_detail::where('booking_id', $id)->get();
-        $booking_detail->load('booking', 'room');
         $booking = Booking::where('id', $id)->first();
-        $productname = null;
-        foreach ($booking_detail as $item) {
-            $item->price = $item->room->roomtype->price;
-            $item->save();
-            $productname = $item->room->name;
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = route('client.success', $booking->id);
+        $vnp_TmnCode = "JX4A2KRB"; //Mã website tại VNPAY 
+        $vnp_HashSecret = "LCMNRDZUXFELVZLNLLRJXLYCEUHSVJJZ"; //Chuỗi bí mật
+
+        $vnp_TxnRef = rand(00, 99999); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = 'Noi dung thanh toan';
+        $vnp_OrderType = 'billpayment';
+        $vnp_Amount = $booking->amount * 100;
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
 
-        $amount = Booking_detail::where('booking_id', $id)->sum('price');
-
-        if ($request->code_discount) {
-            if ($booking->discount->code == $request->code_discount) {
-                if ($booking->discount->value == 0) {
-                    $booking->amount =  $amount  - $booking->discount->price;
-                    $booking->save();
-                } else {
-                    $booking->amount = $amount - ($amount * $booking->discount->price);
-                    $booking->save();
-                }
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
             }
-        } else {
-            $booking->amount =  $amount;
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret); //  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        $returnData = array(
+            'code' => '00', 'message' => 'success', 'data' => $vnp_Url
+        );
+        if (isset($paymentMethod) && $paymentMethod == 'pay_now') {
+            $booking->status_payment = 1;
             $booking->save();
-        }
-
-        if ($paymentMethod === 'pay_now') {
-
-            \Stripe\Stripe::setApiKey(config('stripe.sk'));
-
-
-            // $totalprice = $request->get('total');
-            $two0 = "00";
-            $total = "$booking->amount$two0";
-
-            $session = \Stripe\Checkout\Session::create([
-                'line_items'  => [
-                    [
-                        'price_data' => [
-                            'currency'     => 'USD',
-                            'product_data' => [
-                                "name" => $productname,
-                            ],
-                            'unit_amount'  => $total,
-                        ],
-                        'quantity'   => 1,
-                    ],
-
-                ],
-                'mode'        => 'payment',
-                'success_url' => route('client.success'),
-                'cancel_url'  => route('client.pending'),
-            ]);
-
-            Mail::to($request->email)->send(new sendMailBooking($booking_detail));
-            return redirect()->away($session->url);
+            header('Location: ' . $vnp_Url);
+            die();
         } else {
-            Mail::to($request->email)->send(new sendMailBooking($booking_detail));
-            return redirect()->route('client.pending');
+            // echo json_encode($returnData);
+            $booking->status_payment = 0;
+            $booking->save();
+            return redirect()->route('client.success',$booking->id);
         }
+
+        // vui lòng tham khảo thêm tại code demo
     }
 
-    public function successBooking()
+    // show thông tin đặt phong thành công
+    public function successBooking(Request $request, $id)
     {
-        $booking = Booking::latest()->first();
-        $booking->status = 1;
-        $booking->save();
-        return view('layouts.client.myaccount.success');
+        $booking = Booking::find($id);
+
+        $payment = new Payment();
+        if ($booking->status_payment == 1) {
+            $payment->price = $request->vnp_Amount;
+            $payment->bank = $request->vnp_BankCode;
+            $payment->bankTranNo = $request->vnp_BankTranNo;
+            $payment->cardType = $request->vnp_CardType;
+            $payment->date = Carbon::createFromTimestamp($request->vnp_PayDate);
+            $payment->responseCode = $request->vnp_ResponseCode;
+            $payment->transactionNo = $request->vnp_TransactionNo;
+            $payment->transactionStatus = $request->vnp_TransactionStatus;
+            $payment->txnRef = $request->vnp_TxnRef;
+            $payment->save();
+        }
+
+        return view('layouts.client.myaccount.success', compact('booking','payment'));
     }
 
-    public function pendingBooking()
-    {
-        $booking = Booking::latest()->first();
-        $booking->status = 0;
-        $booking->save();
-        return view('layouts.client.myaccount.success');
-    }
 
+    //giỏi hàng
     public function cart()
     {
         return view('layouts.client.cart');
@@ -189,7 +257,8 @@ class ClientController extends Controller
                 'id' => $id,
                 'name' => $room->name,
                 'description' => $room->description,
-                'nameRoom' => $room->roomtype->name,
+                'roomtype' => $room->roomtype->name,
+                'hotel' => $room->hotel->address,
                 'price' => $room->roomtype->price,
                 'image' => $room->image,
             ];
@@ -197,8 +266,10 @@ class ClientController extends Controller
             session()->put('cart', $cart);
             return back()->with('msg', 'Thêm vào giỏ hàng thành công');
         }
+        
     }
 
+    // xóa giỏi hàng
     public function cartRemove($id)
     {
 
@@ -212,7 +283,8 @@ class ClientController extends Controller
         }
     }
 
-    public function cartAdd(Request $request)
+    //thêm vào giỏi hàng
+    public function cartAdd(ClientBookingReuqest $request)
     {
 
 
@@ -224,118 +296,23 @@ class ClientController extends Controller
         if (Auth::user()) {
             $booking->user_id = Auth::user()->id;
         }
-
-        if ($request->code_discount) {
-            $discount = Discount::where('code', $request->code_discount)->first();
-            if ($discount) {
-                $booking->discount_id = $discount->id;
-            }
-        }
+        $booking->address = $request->address;
         $booking->checkin = $request->checkin;
         $booking->checkout = $request->checkout;
+        $booking->amount = $request->amount;
+        if ($request->discount_id != null) {
+            $booking->discount_id = $request->discount_id;
+        }
         $booking->save();
-
 
         foreach (session('cart') as $cart) {
             $booking->rooms()->attach($cart['id']);
         }
 
-        return $this->paymentCart($request, $paymentMethod, $booking->id);
+        session()->forget('cart');
+
+        return $this->payment($request, $paymentMethod, $booking->id);
     }
 
-    public function paymentCart($request, $paymentMethod, $id)
-    {
-        $booking_details = Booking_detail::where('booking_id', $id)->get();
 
-        $booking_details->load('room', 'booking');
-
-        foreach ($booking_details as $booking_detail) {
-            $booking_detail->price = $booking_detail->room->roomtype->price;
-            $booking_detail->save();
-        }
-
-
-        $booking = Booking::where('id', $id)->first();
-        $amount = Booking_detail::where('booking_id', $id)->sum('price');
-        $number = Booking_detail::where('booking_id', $id)->count();
-
-        if ($request->code_discount) {
-            if ($booking->discount->code == $request->code_discount) {
-                if ($booking->discount->value == 0) {
-                    $booking->amount =  $amount  - ($booking->discount->price*$number);
-                    $booking->save();
-                } else {
-                    $booking->amount = $amount - ($amount * $booking->discount->price);
-                    $booking->save();
-                }
-            }
-        } else {
-            $booking->amount =  $amount;
-            $booking->save();
-        }
-
-        if ($paymentMethod === 'pay_now') {
-
-            \Stripe\Stripe::setApiKey(config('stripe.sk'));
-
-            $productname = $booking_detail->room->name;
-            // $totalprice = $request->get('total');
-            $productItems = [];
-
-            \Stripe\Stripe::setApiKey(config('stripe.sk'));
-
-            foreach (session('cart') as $id => $details) {
-
-                $product_name = $details['name'];
-                if ($request->code_discount) {
-                    
-                        if ($booking->discount->value == 0) {
-                            $total = $details['price'] - $booking->discount->price;
-                        } else {
-                            $total = $details['price'] - ($details['price'] * $booking->discount->price);
-                        }
-                } else {
-                    $total = $details['price'];
-                }
-                
-
-                $two0 = "00";
-                $unit_amount = "$total$two0";
-
-                $productItems[] = [
-                    'price_data' => [
-                        'product_data' => [
-                            'name' => $product_name,
-                        ],
-                        'currency'     => 'USD',
-                        'unit_amount'  => $unit_amount,
-                    ],
-                    'quantity' => 1,
-                ];
-            }
-
-
-
-            $checkoutSession = \Stripe\Checkout\Session::create([
-                'line_items'            => [$productItems],
-                'mode'                  => 'payment',
-                'allow_promotion_codes' => true,
-                'metadata'              => [
-                    'user_id' => "0001",
-                ],
-                // 'customer_email' => "cairocoders-ednalan@gmail.com", //$user->email,
-                'success_url' => route('client.success'),
-                'cancel_url'  => route('client.pending'),
-
-            ]);
-
-            Mail::to($request->email)->send(new sendMailBooking($booking_details));
-            session()->forget('cart');
-            return redirect()->away($checkoutSession->url);
-        } else {
-            session()->forget('cart');
-            Mail::to($request->email)->send(new sendMailBooking($booking_details));
-            return redirect()->route('client.pending');
-        }
-    }
 }

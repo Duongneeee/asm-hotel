@@ -3,7 +3,6 @@
 namespace App\Http\Requests;
 
 use App\Rules\CheckBookingAvailability;
-use App\Rules\CheckDiscount;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ClientBookingReuqest extends FormRequest
@@ -25,19 +24,14 @@ class ClientBookingReuqest extends FormRequest
     {
         $rules = [
             'name'=> ['required','max:255'],
+            'address'=> ['required','max:255'],
             'email'=> ['required','email'],
             'phone'=> ['required','numeric','digits:10'],
             'checkin'=> ['required','after:today','date','before_or_equal:checkout',new CheckBookingAvailability],
             'checkout' => ['required','after:today','date','after_or_equal:checkin',new CheckBookingAvailability],
-            'code_discount' => [new CheckDiscount]
+            
 
         ];
-
-        if (!$this->code_discount){
-            unset($rules['code_discount']);
-        }
-
-
 
         return $rules;
     }
@@ -59,6 +53,7 @@ class ClientBookingReuqest extends FormRequest
     {
         return [
             'name'=>'Tên',
+            'address'=>'Địa chỉ',
             'email'=>'Email',
             'phone' =>'Số điện thoại',
             'checkin'=>'Checkin',

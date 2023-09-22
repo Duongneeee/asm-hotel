@@ -60,7 +60,7 @@
                 <select name="hotel_id" id="" class="form-control {{$errors->has('hotel_id')?'is-invalid':''}}">
                     <option value="">Trống</option>
                     @foreach ($hotels as $hotel)
-                    <option value="{{$hotel->id}}" {{old('hotel_id') == $hotel->id ? 'selected':false}}>{{$hotel->name}}</option>
+                    <option value="{{$hotel->id}}" {{old('hotel_id') == $hotel->id ? 'selected':false}}>{{$hotel->address}}</option>
                     
                     @endforeach
                 </select>

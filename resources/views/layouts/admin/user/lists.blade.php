@@ -45,9 +45,9 @@
                 <td><a href="{{route('admin.users.delete', $user->id)}}" class="btn btn-danger delete-action">Xóa</a></td>
             </tr>
         @endforeach
-        
     </tbody>
 </table>
+@include('layouts.admin.custom_paginate',['items'=>$users]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

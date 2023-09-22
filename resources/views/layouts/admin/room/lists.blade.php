@@ -68,7 +68,7 @@
                     <td><img src="{{asset('storage/images/' . $room->image)}}" width="100" height="100"></td>
                     <td>{{$room->description}}</td>
                     <td>{{$room->status}}</td>
-                    <td>{{$room->hotel->name}}</td>
+                    <td>{{$room->hotel->address}}</td>
                     <td>{{$room->roomtype->name}}</td>
                     <td>{{$room->created_at}}</td>
                     @can('update',App\Models\Room::class)
@@ -78,9 +78,8 @@
             @endforeach
         </tbody>
     </table>
-
 </form>
-
+@include('layouts.admin.custom_paginate',['items'=>$rooms]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

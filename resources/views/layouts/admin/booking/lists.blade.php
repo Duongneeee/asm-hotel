@@ -86,6 +86,8 @@
 
 </form>
 
+@include('layouts.admin.custom_paginate',['items'=>$bookings]);
+
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

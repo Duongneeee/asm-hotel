@@ -51,12 +51,10 @@
                 <td><a href="{{route('admin.roles.permission', $role->id)}}" class="btn btn-primary">Phân quyền</a></td>
             </tr>
             @endforeach
-
         </tbody>
     </table>
-
 </form>
-
+@include('layouts.admin.custom_paginate',['items'=>$roles]);
 @include('parts.backend.delete')
 @endsection
 @section('scripts')

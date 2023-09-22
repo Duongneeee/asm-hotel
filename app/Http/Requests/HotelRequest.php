@@ -23,14 +23,17 @@ class HotelRequest extends FormRequest
     {
 
         $rules = [
-            'name' => 'required|max:255|unique:hotels,name',
             'address'=>'required|max:255',
+            'image' => 'required|image|mimes:jpeg,jpg,png,gif',
             'description'=>'required',
         ];
 
         if(!empty($this->route()->hotel->id)){
-            $id = $this->route()->hotel->id;
-            $rules['name'] = 'required|max:255|unique:hotels,name,'.$id;
+            if($this->image){
+                $rules['image'] = 'image|mimes:jpeg,jpg,png,gif';
+            }else{
+                unset($rules['image']);
+            }
         }
 
         return $rules;
@@ -48,7 +51,7 @@ class HotelRequest extends FormRequest
     public function attributes(): array
     {
         return [
-            'name' => 'Tên',
+            'image' =>'Hình ảnh',
             'address' => 'Địa chỉ',
             'description' => 'Mô tả',
         ];

@@ -9,3 +9,4 @@ class Banner extends Model
 {
     use HasFactory;
 }
+

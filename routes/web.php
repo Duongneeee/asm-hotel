@@ -8,17 +8,19 @@ use App\Models\Discount;
 use App\Models\Roomtype;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\RoomController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\HotelController;
-use App\Http\Controllers\BannerController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\RoomController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\HotelController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\AccountController;
-use App\Http\Controllers\BookingController;
-use App\Http\Controllers\DiscountController;
-use App\Http\Controllers\RoomtypeController;
-use App\Http\Controllers\Booking_detailController;
+use App\Http\Controllers\Admin\BookingController;
+use App\Http\Controllers\Admin\DiscountController;
+use App\Http\Controllers\Admin\RoomtypeController;
+use App\Http\Controllers\Admin\Booking_detailController;
+use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Client\CommentController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 
 /*
@@ -35,16 +37,32 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 Route::get('/',[ClientController::class,'index'])->name('index');
 
 Route::prefix('client')->name('client.')->group(function(){
-    Route::get('/all-room/{id}',[ClientController::class,'roomList'])->name('all-room');
+    Route::get('/room/{id}',[ClientController::class,'roomList'])->name('room');
+
     Route::get('/detail-room/{id}',[ClientController::class,'roomDetail'])->name('detail-room');
+
+    Route::post('/room-search',[ClientController::class,'roomSearch'])->name('room-search');
+
     Route::get('/booking-room/{id}',[ClientController::class,'roomBooking'])->name('booking-room');
+
+    Route::post('/booking-discount',[ClientController::class,'discount'])->name('booking-discount');
+
     Route::post('/booking-room/{id}',[ClientController::class,'postRoomBooking'])->name('post-booking-room');
-    Route::get('/success',[ClientController::class,'successBooking'])->name('success');
+
+    Route::get('/success/{id}',[ClientController::class,'successBooking'])->name('success');
+
     Route::get('/pending',[ClientController::class,'pendingBooking'])->name('pending');
+
     Route::get('/add-to-cart/{id}',[ClientController::class,'addToCart'])->name('add-to-cart');
+
     Route::get('/cart',[ClientController::class,'cart'])->name('cart');
+
     Route::delete('/cart-remove/{id}',[ClientController::class,'cartRemove'])->name('cart-remove');
+
     Route::post('/cart-post',[ClientController::class,'cartAdd'])->name('cart-post');
+
+    //comments
+    Route::post('/comments',[CommentController::class,'store'])->name('store-comment');
     
 
     Route::prefix('accounts')->name('accounts.')->middleware('auth')->group(function(){
@@ -53,30 +71,23 @@ Route::prefix('client')->name('client.')->group(function(){
 
         Route::get('/mybooking',[AccountController::class,'indexMyBooking'])->name('mybooking');
 
-        Route::get('/create',[AccountController::class,'create'])->name('create')->can('create',Hotel::class);
+        Route::get('/wishlist',[AccountController::class,'showWishList'])->name('show-wishlist');
 
-        Route::post('/create',[AccountController::class,'store'])->name('store')->can('create',Hotel::class);
+        Route::post('/add-wishlist/{id}',[AccountController::class,'addWishList'])->name('add-wishlist');
 
-        Route::get('/edit/{hotel}',[AccountController::class,'edit'])->name('edit')->can('update',Hotel::class);
+        Route::delete('/delete-wishlist/{id}',[AccountController::class,'deleteWishList'])->name('delete-wishlist');
 
-        Route::post('/edit/{hotel}',[AccountController::class,'update'])->name('update')->can('update',Hotel::class);
+        Route::get('/profile',[AccountController::class,'profile'])->name('profile');
 
-        Route::delete('/destroy',[AccountController::class,'destroy'])->name('destroy')->can('delete',Hotel::class);
+        Route::post('/profile/{user}',[AccountController::class,'postProfile'])->name('add-profile');
 
-        Route::get('/softdelete',[AccountController::class,'showSoftDelete'])->name('showsoftdelete');
-
-        Route::get('/restore/{id}',[AccountController::class,'restore'])->name('restore')->can('restore',Hotel::class);
-
-        Route::delete('/force_delete',[AccountController::class,'forceDelete'])->name('force_delete')->can('forcedelete',Hotel::class);
     });
 
 });
 
 Route::prefix('admin')->middleware(['auth','verified'])->name('admin.')->group(function(){
 
-    Route::get('/dashboard', function(){
-        return view('parts.backend.dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard',[DashBoardController::class,'index'])->name('dashboard');
     Route::prefix('users')->name('users.')->middleware('can:users')->group(function(){
         Route::get('/',[UserController::class,'index'])->name('index');
         Route::get('/data',[UserController::class,'loadData'])->name('data');
@@ -202,21 +213,21 @@ Route::prefix('admin')->middleware(['auth','verified'])->name('admin.')->group(f
 
         Route::get('/',[RoleController::class,'index'])->name('index');
 
-        Route::get('/create',[RoleController::class,'create'])->name('create')->can('create',Role::class);;
+        Route::get('/create',[RoleController::class,'create'])->name('create')->can('create',Role::class);
 
-        Route::post('/create',[RoleController::class,'store'])->name('store')->can('create',Role::class);;
+        Route::post('/create',[RoleController::class,'store'])->name('store')->can('create',Role::class);
 
-        Route::get('/edit/{role}',[RoleController::class,'edit'])->name('edit')->can('update',Role::class);;
+        Route::get('/edit/{role}',[RoleController::class,'edit'])->name('edit')->can('update',Role::class);
 
-        Route::post('/edit/{role}',[RoleController::class,'update'])->name('update')->can('update',Role::class);;
+        Route::post('/edit/{role}',[RoleController::class,'update'])->name('update')->can('update',Role::class);
 
-        Route::delete('/destroy',[RoleController::class,'destroy'])->name('destroy')->can('delete',Role::class);;
+        Route::delete('/destroy',[RoleController::class,'destroy'])->name('destroy')->can('delete',Role::class);
 
         Route::get('/softdelete',[RoleController::class,'showSoftDelete'])->name('showsoftdelete');
 
-        Route::get('/restore/{id}',[RoleController::class,'restore'])->name('restore')->can('restore',Role::class);;
+        Route::get('/restore/{id}',[RoleController::class,'restore'])->name('restore')->can('restore',Role::class);
 
-        Route::delete('/force_delete',[RoleController::class,'forceDelete'])->name('force_delete')->can('forceDelete',Role::class);;
+        Route::delete('/force_delete',[RoleController::class,'forceDelete'])->name('force_delete')->can('forceDelete',Role::class);
 
         Route::get('/permission/{role}',[RoleController::class,'permission'])->name('permission')->can('roles.permission');
 
